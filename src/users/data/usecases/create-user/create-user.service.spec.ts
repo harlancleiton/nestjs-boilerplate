@@ -167,4 +167,21 @@ describe('CreateUserService', () => {
 
     expect(createUserRepository.create).not.toBeCalled();
   });
+
+  it('should throw if FindUserByEmailRepository throws', async () => {
+    const createUserModel: CreateUserModel = {
+      firstname: 'any_firstname',
+      lastname: 'any_lastname',
+      password: 'any_password',
+      email: 'any_mail@mail.com'
+    };
+
+    jest
+      .spyOn(findUserByEmailRepository, 'findByEmail')
+      .mockImplementationOnce(async () => {
+        throw new Error();
+      });
+
+    await expect(sut.execute(createUserModel)).rejects.toThrow();
+  });
 });
