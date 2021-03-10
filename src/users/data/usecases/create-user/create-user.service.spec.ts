@@ -138,6 +138,21 @@ describe('CreateUserService', () => {
     );
   });
 
+  it('should throw if Hash throws', async () => {
+    const createUserModel: CreateUserModel = {
+      firstname: 'any_firstname',
+      lastname: 'any_lastname',
+      password: 'any_password',
+      email: 'any_mail@mail.com'
+    };
+
+    jest.spyOn(hash, 'make').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    await expect(sut.execute(createUserModel)).rejects.toThrow();
+  });
+
   it('should throw UnprocessableEntityException when try create user with duplicate email', async () => {
     const createUserModel: CreateUserModel = {
       firstname: 'any_firstname',
