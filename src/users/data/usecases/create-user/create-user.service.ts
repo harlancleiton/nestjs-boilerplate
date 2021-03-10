@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { Hash } from '~/shared/data';
 import { CreateUser, CreateUserModel, UserModel } from '~/users/domain';
 
 import { CreateUserRepository } from '../../repositories';
@@ -8,7 +9,9 @@ import { CreateUserRepository } from '../../repositories';
 export class CreateUserService implements CreateUser {
   constructor(
     @Inject('CreateUserRepository')
-    private readonly createUserRepository: CreateUserRepository
+    private readonly createUserRepository: CreateUserRepository,
+    @Inject('Hash')
+    private readonly hash: Hash
   ) {}
 
   async execute({
@@ -18,11 +21,13 @@ export class CreateUserService implements CreateUser {
     password,
     birthdate
   }: CreateUserModel): Promise<UserModel> {
+    const hashedPassword = await this.hash.make(password);
+
     await this.createUserRepository.create({
       firstname,
       lastname,
       email,
-      password,
+      password: hashedPassword,
       birthdate
     });
 
