@@ -46,24 +46,6 @@ describe('CreateUserService', () => {
     expect(sut).toBeDefined();
   });
 
-  it('should return a new user', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    };
-
-    const user = await sut.execute(createUserModel);
-
-    expect(user).toBeDefined();
-    expect(user).toMatchObject({
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      email: 'any_mail@mail.com'
-    });
-  });
-
   it('should call CreateUserRepository with correct values', async () => {
     const createUserModel: CreateUserModel = {
       firstname: 'any_firstname',
@@ -198,5 +180,34 @@ describe('CreateUserService', () => {
       });
 
     await expect(sut.execute(createUserModel)).rejects.toThrow();
+  });
+
+  it('should return a new user', async () => {
+    const createUserModel: CreateUserModel = {
+      firstname: 'any_firstname',
+      lastname: 'any_lastname',
+      email: 'any_mail@mail.com',
+      password: 'any_password'
+    };
+
+    const userModel: UserModel = {
+      id: 'id',
+      uuid: 'uuid',
+      firstname: 'any_firstname',
+      lastname: 'any_lastname',
+      email: 'any_mail@mail.com',
+      password: 'any_password',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    jest
+      .spyOn(createUserRepository, 'create')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+
+    const user = await sut.execute(createUserModel);
+
+    expect(user).toBeDefined();
+    expect(user).toEqual(userModel);
   });
 });
