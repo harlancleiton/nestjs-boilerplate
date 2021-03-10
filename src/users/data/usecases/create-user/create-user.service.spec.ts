@@ -2,7 +2,7 @@ import { UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Hash } from '~/shared/data';
-import { CreateUserModel, UserModel } from '~/users/domain';
+import { factories } from '~/test/factories';
 
 import {
   CreateUserRepository,
@@ -47,47 +47,25 @@ describe('CreateUserService', () => {
   });
 
   it('should call CreateUserRepository with correct values', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    };
+    const createUserModel = factories.createUserModel.build();
 
     jest
       .spyOn(hash, 'make')
-      .mockReturnValueOnce(Promise.resolve('any_password'));
+      .mockReturnValueOnce(Promise.resolve(createUserModel.password));
 
-    jest.spyOn(createUserRepository, 'create').mockReturnValueOnce(
-      Promise.resolve({
-        id: 'id',
-        uuid: 'uuid',
-        firstname: 'any_firstname',
-        lastname: 'any_lastname',
-        password: 'any_password',
-        email: 'any_mail@mail.com',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
-    );
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(createUserRepository, 'create')
+      .mockReturnValueOnce(Promise.resolve(userModel));
 
     await sut.execute(createUserModel);
 
-    expect(createUserRepository.create).toBeCalledWith({
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    });
+    expect(createUserRepository.create).toBeCalledWith(createUserModel);
   });
 
   it('should throw if CreateUserRepository throws', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    };
+    const createUserModel = factories.createUserModel.build();
 
     jest
       .spyOn(createUserRepository, 'create')
@@ -99,14 +77,9 @@ describe('CreateUserService', () => {
   });
 
   it('should call Hash with correct plaintext', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    };
+    const createUserModel = factories.createUserModel.build();
 
-    const hashedPasswordMock = 'hashed_any_password';
+    const hashedPasswordMock = factories.faker.random.alphaNumeric();
     jest
       .spyOn(hash, 'make')
       .mockReturnValueOnce(Promise.resolve(hashedPasswordMock));
@@ -121,12 +94,7 @@ describe('CreateUserService', () => {
   });
 
   it('should throw if Hash throws', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    };
+    const createUserModel = factories.createUserModel.build();
 
     jest.spyOn(hash, 'make').mockImplementationOnce(async () => {
       throw new Error();
@@ -136,23 +104,9 @@ describe('CreateUserService', () => {
   });
 
   it('should throw UnprocessableEntityException when try create user with duplicate email', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    };
+    const createUserModel = factories.createUserModel.build();
 
-    const userModel: UserModel = {
-      id: 'id',
-      uuid: 'uuid',
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+    const userModel = factories.userModel.build();
 
     jest
       .spyOn(findUserByEmailRepository, 'findByEmail')
@@ -166,12 +120,7 @@ describe('CreateUserService', () => {
   });
 
   it('should throw if FindUserByEmailRepository throws', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      password: 'any_password',
-      email: 'any_mail@mail.com'
-    };
+    const createUserModel = factories.createUserModel.build();
 
     jest
       .spyOn(findUserByEmailRepository, 'findByEmail')
@@ -183,23 +132,9 @@ describe('CreateUserService', () => {
   });
 
   it('should return a new user', async () => {
-    const createUserModel: CreateUserModel = {
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      email: 'any_mail@mail.com',
-      password: 'any_password'
-    };
+    const createUserModel = factories.createUserModel.build();
 
-    const userModel: UserModel = {
-      id: 'id',
-      uuid: 'uuid',
-      firstname: 'any_firstname',
-      lastname: 'any_lastname',
-      email: 'any_mail@mail.com',
-      password: 'any_password',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+    const userModel = factories.userModel.build();
 
     jest
       .spyOn(createUserRepository, 'create')
