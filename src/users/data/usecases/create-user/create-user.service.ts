@@ -39,7 +39,7 @@ export class CreateUserService implements CreateUser {
 
     const hashedPassword = await this.hash.make(password);
 
-    await this.createUserRepository.create({
+    const user = await this.createUserRepository.create({
       firstname,
       lastname,
       email,
@@ -47,15 +47,6 @@ export class CreateUserService implements CreateUser {
       birthdate
     });
 
-    return {
-      id: 'id',
-      uuid: 'uuid',
-      firstname,
-      lastname,
-      password,
-      email,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+    return user;
   }
 }
