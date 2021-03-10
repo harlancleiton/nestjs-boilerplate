@@ -78,4 +78,21 @@ describe('CreateUserService', () => {
       email: 'any_mail@mail.com'
     });
   });
+
+  it('should throw if CreateUserRepository throws', async () => {
+    const createUserModel: CreateUserModel = {
+      firstname: 'any_firstname',
+      lastname: 'any_lastname',
+      password: 'any_password',
+      email: 'any_mail@mail.com'
+    };
+
+    jest
+      .spyOn(createUserRepository, 'create')
+      .mockImplementationOnce(async () => {
+        throw new Error();
+      });
+
+    await expect(sut.execute(createUserModel)).rejects.toThrow();
+  });
 });
