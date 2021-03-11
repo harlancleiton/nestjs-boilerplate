@@ -74,4 +74,16 @@ describe('BCryptAdapter', () => {
 
     expect(bcrypt.compare).toBeCalledWith(plaintext, hash);
   });
+
+  it('should throw if compare throws', async () => {
+    jest.spyOn(bcrypt, 'compare').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    const plaintext = factories.faker.random.alphaNumeric();
+
+    const hash = factories.faker.random.alphaNumeric();
+
+    await expect(sut.compare(plaintext, hash)).rejects.toThrow();
+  });
 });
