@@ -53,7 +53,6 @@ describe('BCryptAdapter', () => {
 
   it('should return a valid hash on hash success', async () => {
     const plaintext = factories.faker.random.alphaNumeric();
-
     const hashMock = factories.faker.random.alphaNumeric();
 
     jest.spyOn(bcrypt, 'hash').mockImplementationOnce(async () => hashMock);
@@ -67,7 +66,6 @@ describe('BCryptAdapter', () => {
     jest.spyOn(bcrypt, 'compare');
 
     const plaintext = factories.faker.random.alphaNumeric();
-
     const hash = factories.faker.random.alphaNumeric();
 
     await sut.compare(plaintext, hash);
@@ -81,9 +79,30 @@ describe('BCryptAdapter', () => {
     });
 
     const plaintext = factories.faker.random.alphaNumeric();
-
     const hash = factories.faker.random.alphaNumeric();
 
     await expect(sut.compare(plaintext, hash)).rejects.toThrow();
+  });
+
+  it('should return true when compare succeeds', async () => {
+    jest.spyOn(bcrypt, 'compare').mockImplementationOnce(async () => true);
+
+    const plaintext = factories.faker.random.alphaNumeric();
+    const hash = factories.faker.random.alphaNumeric();
+
+    const matched = await sut.compare(plaintext, hash);
+
+    expect(matched).toBeTruthy();
+  });
+
+  it('should return false when compare fails', async () => {
+    jest.spyOn(bcrypt, 'compare').mockImplementationOnce(async () => false);
+
+    const plaintext = factories.faker.random.alphaNumeric();
+    const hash = factories.faker.random.alphaNumeric();
+
+    const matched = await sut.compare(plaintext, hash);
+
+    expect(matched).toBeFalsy();
   });
 });
