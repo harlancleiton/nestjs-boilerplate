@@ -2,11 +2,15 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CreateUserService } from './data';
-import { UserEntity } from './infra';
+import { UserEntity, UsersRepository } from './infra';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
-  providers: [CreateUserService],
-  exports: [CreateUserService]
+  providers: [
+    { provide: 'CreateUser', useClass: CreateUserService },
+    { provide: 'CreateUserRepository', useClass: UsersRepository },
+    { provide: 'FindUserByEmailRepository', useClass: UsersRepository }
+  ],
+  exports: [{ provide: 'CreateUser', useClass: CreateUserService }]
 })
 export class UsersModule {}
