@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
 
-import { Connection, Repository } from 'typeorm';
+import { Connection, EntityTarget, Repository } from 'typeorm';
 
 @Injectable()
 export class TypeOrmHelper {
@@ -23,8 +23,8 @@ export class TypeOrmHelper {
     }
   }
 
-  async getRepository<T>(entity: string): Promise<Repository<T>> {
-    return this.connection.getRepository(entity);
+  async getRepository<T>(target: EntityTarget<T>): Promise<Repository<T>> {
+    return this.connection.getRepository(target);
   }
 
   private get entities(): string[] {
