@@ -1,8 +1,9 @@
 import { UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Hash } from '~/shared/data';
+import { Event, Hash } from '~/shared/data';
 import { factories } from '~/test/factories';
+import { UserCreatedEvent } from '~/users/domain';
 
 import {
   CreateUserRepository,
@@ -14,11 +15,13 @@ describe('CreateUserService', () => {
   const createUserRepositoryMock = () => ({ create: jest.fn() });
   const findUserByEmailRepositoryMock = () => ({ findByEmail: jest.fn() });
   const hashMock = () => ({ make: jest.fn() });
+  const eventMock = () => ({ emit: jest.fn() });
 
   let sut: CreateUserService;
   let createUserRepository: CreateUserRepository;
   let findUserByEmailRepository: FindUserByEmailRepository;
   let hash: Hash;
+  let event: Event;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,7 +35,8 @@ describe('CreateUserService', () => {
           provide: 'FindUserByEmailRepository',
           useFactory: findUserByEmailRepositoryMock
         },
-        { provide: 'Hash', useFactory: hashMock }
+        { provide: 'Hash', useFactory: hashMock },
+        { provide: 'Event', useFactory: eventMock }
       ]
     }).compile();
 
@@ -40,6 +44,7 @@ describe('CreateUserService', () => {
     createUserRepository = module.get('CreateUserRepository');
     findUserByEmailRepository = module.get('FindUserByEmailRepository');
     hash = module.get('Hash');
+    event = module.get('Event');
   });
 
   it('should be defined', () => {
@@ -144,5 +149,26 @@ describe('CreateUserService', () => {
 
     expect(user).toBeDefined();
     expect(user).toEqual(userModel);
+  });
+
+  it('should be emit event when create user', async () => {
+    const createUserModel = factories.createUserModel.build();
+
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(createUserRepository, 'create')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+
+    jest.spyOn(event, 'emit');
+
+    const user = await sut.execute(createUserModel);
+
+    expect(user).toBeDefined();
+
+    expect(event.emit).toBeCalledWith(
+      'user.created',
+      new UserCreatedEvent({ user })
+    );
   });
 });
