@@ -52,7 +52,7 @@ describe('BCryptAdapter', () => {
   it('should call genSalt with correct values', async () => {
     const saltRounds = factories.faker.random.number({ min: 5, max: 20 });
 
-    jest.spyOn(configService, 'get').mockImplementationOnce(() => saltRounds);
+    jest.spyOn(configService, 'get').mockReturnValueOnce(String(saltRounds));
     jest.spyOn(bcrypt, 'genSalt');
 
     const plaintext = factories.faker.random.alphaNumeric();
