@@ -71,4 +71,21 @@ describe('RegisterController', () => {
     expect(user).toBeDefined();
     expect(user).toEqual(plainToClass(UserDto, userModel));
   });
+
+  it('should not return user password', async () => {
+    const createUserModel = plainToClass(
+      CreateUserDto,
+      factories.createUserModel.build()
+    );
+
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(createUser, 'execute')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+
+    const user = await sut.store(createUserModel);
+
+    expect(user.password).toBeUndefined();
+  });
 });
