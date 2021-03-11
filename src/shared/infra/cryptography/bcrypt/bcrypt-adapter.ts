@@ -8,9 +8,9 @@ import { Hash } from '~/shared/data';
 export class BCryptAdapter implements Hash {
   async make(plaintext: string): Promise<string> {
     const salt = await bcrypt.genSalt(12);
-    await bcrypt.hash(plaintext, salt);
+    const hash = await bcrypt.hash(plaintext, salt);
 
-    return plaintext;
+    return hash;
   }
 
   async compare(plaintext: string, hash: string): Promise<boolean> {
