@@ -31,6 +31,16 @@ describe('BCryptAdapter', () => {
     expect(bcrypt.hash).toBeCalledWith(plaintext, expect.any(String));
   });
 
+  it('should throw if hash throws', async () => {
+    jest.spyOn(bcrypt, 'hash').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    const plaintext = factories.faker.random.alphaNumeric();
+
+    await expect(sut.make(plaintext)).rejects.toThrow();
+  });
+
   it('should call genSalt with correct values', async () => {
     jest.spyOn(bcrypt, 'genSalt');
 
