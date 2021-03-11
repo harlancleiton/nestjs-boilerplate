@@ -7,7 +7,7 @@ import { factories } from '~/test/factories';
 import { EventEmitterAdapter } from './event-emitter-adapter';
 
 describe('EventEmitterAdapter', () => {
-  const eventEmitterMock = () => ({ emit: jest.fn() });
+  const eventEmitterMock = () => ({ emit: jest.fn(), emitAsync: jest.fn() });
 
   let sut: EventEmitterAdapter;
   let eventEmitter: EventEmitter2;
@@ -37,5 +37,16 @@ describe('EventEmitterAdapter', () => {
     sut.emit(event, eventValue);
 
     expect(eventEmitter.emit).toBeCalledWith(event, eventValue);
+  });
+
+  it('should call EventEmitter.emitAsync with correct values', async () => {
+    jest.spyOn(eventEmitter, 'emitAsync');
+
+    const event = factories.faker.lorem.word();
+    const eventValue = factories.userModel.build();
+
+    await sut.emitAsync(event, eventValue);
+
+    expect(eventEmitter.emitAsync).toBeCalledWith(event, eventValue);
   });
 });
