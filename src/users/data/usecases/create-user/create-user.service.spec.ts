@@ -171,4 +171,14 @@ describe('CreateUserService', () => {
       new UserCreatedEvent({ user })
     );
   });
+
+  it('should throw if Event throws', async () => {
+    const createUserModel = factories.createUserModel.build();
+
+    jest.spyOn(event, 'emit').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    await expect(sut.execute(createUserModel)).rejects.toThrow();
+  });
 });
