@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import * as bcrypt from 'bcryptjs';
+
+import { factories } from '~/test/factories';
+
 import { BCryptAdapter } from './bcrypt-adapter';
 
 describe('BCryptAdapter', () => {
@@ -15,5 +19,15 @@ describe('BCryptAdapter', () => {
 
   it('should be defined', () => {
     expect(sut).toBeDefined();
+  });
+
+  it('should call hash with correct values', async () => {
+    jest.spyOn(bcrypt, 'hash');
+
+    const plaintext = factories.faker.random.alphaNumeric();
+
+    await sut.make(plaintext);
+
+    expect(bcrypt.hash).toBeCalledWith(plaintext, expect.any(String));
   });
 });
