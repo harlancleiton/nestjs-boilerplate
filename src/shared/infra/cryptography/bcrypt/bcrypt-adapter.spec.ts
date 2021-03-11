@@ -30,4 +30,14 @@ describe('BCryptAdapter', () => {
 
     expect(bcrypt.hash).toBeCalledWith(plaintext, expect.any(String));
   });
+
+  it('should call genSalt with correct values', async () => {
+    jest.spyOn(bcrypt, 'genSalt');
+
+    const plaintext = factories.faker.random.alphaNumeric();
+
+    await sut.make(plaintext);
+
+    expect(bcrypt.genSalt).toBeCalledWith(12);
+  });
 });
