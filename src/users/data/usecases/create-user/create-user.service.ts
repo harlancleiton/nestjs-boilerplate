@@ -4,8 +4,13 @@ import {
   UnprocessableEntityException
 } from '@nestjs/common';
 
-import { Hash } from '~/shared/data';
-import { CreateUser, CreateUserModel, UserModel } from '~/users/domain';
+import { Event, Hash } from '~/shared/data';
+import {
+  CreateUser,
+  CreateUserModel,
+  UserCreatedEvent,
+  UserModel
+} from '~/users/domain';
 
 import {
   CreateUserRepository,
@@ -20,7 +25,9 @@ export class CreateUserService implements CreateUser {
     @Inject('FindUserByEmailRepository')
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     @Inject('Hash')
-    private readonly hash: Hash
+    private readonly hash: Hash,
+    @Inject('Event')
+    private readonly event: Event
   ) {}
 
   async execute({
@@ -46,6 +53,8 @@ export class CreateUserService implements CreateUser {
       password: hashedPassword,
       birthdate
     });
+
+    this.event.emit('user.created', new UserCreatedEvent({ user }));
 
     return user;
   }
