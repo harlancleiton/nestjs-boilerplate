@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs';
 
 import { factories } from '~/test/factories';
 
-import { BCryptAdapter } from './bcrypt-adapter';
+import { BCryptAdapter } from './bcrypt.adapter';
 
 describe('BCryptAdapter', () => {
   const configServiceMock = () => ({ get: jest.fn() });
