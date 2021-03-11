@@ -17,7 +17,13 @@ import { BCryptAdapter } from './infra';
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
         PORT: Joi.number().required(),
-        SALT_ROUNDS: Joi.number().default(10)
+        SALT_ROUNDS: Joi.number().default(10),
+        DB_CONNECTION: Joi.string().required(),
+        DB_DATABASE: Joi.string().required(),
+        DB_HOST: Joi.string(),
+        DB_PORT: Joi.number(),
+        DB_USERNAME: Joi.string(),
+        DB_PASSWORD: Joi.string()
       })
     })
   ],
