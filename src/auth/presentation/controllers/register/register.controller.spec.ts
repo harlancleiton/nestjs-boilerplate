@@ -5,7 +5,7 @@ import { plainToClass } from 'class-transformer';
 import { factories } from '~/test/factories';
 import { CreateUser } from '~/users/domain';
 
-import { CreateUserDto } from '../../dtos';
+import { CreateUserDto, UserDto } from '../../dtos';
 import { RegisterController } from './register.controller';
 
 describe('RegisterController', () => {
@@ -52,5 +52,23 @@ describe('RegisterController', () => {
     });
 
     await expect(sut.store(createUserModel)).rejects.toThrow();
+  });
+
+  it('should return a new user', async () => {
+    const createUserModel = plainToClass(
+      CreateUserDto,
+      factories.createUserModel.build()
+    );
+
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(createUser, 'execute')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+
+    const user = await sut.store(createUserModel);
+
+    expect(user).toBeDefined();
+    expect(user).toEqual(plainToClass(UserDto, userModel));
   });
 });
