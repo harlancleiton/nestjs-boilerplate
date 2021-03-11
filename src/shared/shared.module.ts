@@ -27,6 +27,7 @@ import { BCryptAdapter } from './infra';
       })
     })
   ],
-  providers: [BCryptAdapter]
+  providers: [{ provide: 'Hash', useClass: BCryptAdapter }],
+  exports: [{ provide: 'Hash', useClass: BCryptAdapter }]
 })
 export class SharedModule {}
