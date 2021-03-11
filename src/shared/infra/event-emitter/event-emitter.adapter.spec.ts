@@ -4,7 +4,7 @@ import { EventEmitter2 } from 'eventemitter2';
 
 import { factories } from '~/test/factories';
 
-import { EventEmitterAdapter } from './event-emitter-adapter';
+import { EventEmitterAdapter } from './event-emitter.adapter';
 
 describe('EventEmitterAdapter', () => {
   const eventEmitterMock = () => ({ emit: jest.fn(), emitAsync: jest.fn() });

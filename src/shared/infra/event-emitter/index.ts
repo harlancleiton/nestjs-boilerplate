@@ -1,1 +1,1 @@
-export * from './event-emitter-adapter';
+export * from './event-emitter.adapter';
