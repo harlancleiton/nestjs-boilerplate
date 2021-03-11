@@ -14,6 +14,8 @@ export class BCryptAdapter implements Hash {
   }
 
   async compare(plaintext: string, hash: string): Promise<boolean> {
+    await bcrypt.compare(plaintext, hash);
+
     return !!hash;
   }
 }
