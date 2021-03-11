@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import * as bcrypt from 'bcryptjs';
@@ -7,14 +8,21 @@ import { factories } from '~/test/factories';
 import { BCryptAdapter } from './bcrypt-adapter';
 
 describe('BCryptAdapter', () => {
+  const configServiceMock = () => ({ get: jest.fn() });
+
   let sut: BCryptAdapter;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [BCryptAdapter]
+      providers: [
+        BCryptAdapter,
+        { provide: ConfigService, useFactory: configServiceMock }
+      ]
     }).compile();
 
     sut = module.get(BCryptAdapter);
+    configService = module.get(ConfigService);
   });
 
   it('should be defined', () => {
@@ -42,13 +50,17 @@ describe('BCryptAdapter', () => {
   });
 
   it('should call genSalt with correct values', async () => {
+    const saltRounds = factories.faker.random.number({ min: 5, max: 20 });
+
+    jest.spyOn(configService, 'get').mockImplementationOnce(() => saltRounds);
     jest.spyOn(bcrypt, 'genSalt');
 
     const plaintext = factories.faker.random.alphaNumeric();
 
     await sut.make(plaintext);
 
-    expect(bcrypt.genSalt).toBeCalledWith(12);
+    expect(bcrypt.genSalt).toBeCalledWith(saltRounds);
+    expect(configService.get).toBeCalledWith('SALT_ROUNDS');
   });
 
   it('should return a valid hash on hash success', async () => {
