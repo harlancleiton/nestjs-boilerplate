@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
+import { EventEmitter2 } from 'eventemitter2';
+
 import { Event, event, eventNS } from '~/shared/data';
 
 @Injectable()
 export class EventEmitterAdapter implements Event {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(private readonly eventEmitter: EventEmitter2) {}
+
   emit(event: event | eventNS, ...values: any[]): boolean {
-    throw new Error('Method not implemented.');
+    return this.eventEmitter.emit(event, ...values);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
