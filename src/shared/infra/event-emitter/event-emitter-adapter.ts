@@ -12,8 +12,7 @@ export class EventEmitterAdapter implements Event {
     return this.eventEmitter.emit(event, ...values);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   emitAsync(event: event | eventNS, ...values: any[]): Promise<any[]> {
-    throw new Error('Method not implemented.');
+    return this.eventEmitter.emitAsync(event, ...values);
   }
 }
