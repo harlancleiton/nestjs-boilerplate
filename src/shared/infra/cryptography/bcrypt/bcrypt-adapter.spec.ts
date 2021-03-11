@@ -50,4 +50,16 @@ describe('BCryptAdapter', () => {
 
     expect(bcrypt.genSalt).toBeCalledWith(12);
   });
+
+  it('should return a valid hash on hash success', async () => {
+    const plaintext = factories.faker.random.alphaNumeric();
+
+    const hashMock = factories.faker.random.alphaNumeric();
+
+    jest.spyOn(bcrypt, 'hash').mockImplementationOnce(async () => hashMock);
+
+    const hash = await sut.make(plaintext);
+
+    expect(hash).toEqual(hashMock);
+  });
 });
