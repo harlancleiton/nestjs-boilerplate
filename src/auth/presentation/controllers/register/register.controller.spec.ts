@@ -40,4 +40,17 @@ describe('RegisterController', () => {
 
     expect(createUser.execute).toBeCalledWith(createUserModel);
   });
+
+  it('should throw if CreateUser throws', async () => {
+    const createUserModel = plainToClass(
+      CreateUserDto,
+      factories.createUserModel.build()
+    );
+
+    jest.spyOn(createUser, 'execute').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    await expect(sut.store(createUserModel)).rejects.toThrow();
+  });
 });
