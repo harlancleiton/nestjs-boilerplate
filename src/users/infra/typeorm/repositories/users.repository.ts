@@ -4,14 +4,21 @@ import { InjectConnection } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 
 import { DeepPartial } from '~/shared/domain';
-import { CreateUserRepository, FindUserByEmailRepository } from '~/users/data';
+import {
+  CreateUserRepository,
+  FindUserByEmailRepository,
+  FindUserByIdRepository
+} from '~/users/data';
 import { UserModel } from '~/users/domain';
 
 import { UserEntity } from '../entities';
 
 @Injectable()
 export class UsersRepository
-  implements CreateUserRepository, FindUserByEmailRepository {
+  implements
+    CreateUserRepository,
+    FindUserByEmailRepository,
+    FindUserByIdRepository {
   private readonly typeormRepository: Repository<UserEntity>;
 
   constructor(@InjectConnection() connection: Connection) {
@@ -27,6 +34,12 @@ export class UsersRepository
 
   async findByEmail(email: string): Promise<UserModel> {
     const user = await this.typeormRepository.findOne({ where: { email } });
+
+    return user;
+  }
+
+  async findById(id: string): Promise<UserModel> {
+    const user = await this.typeormRepository.findOne({ where: { id } });
 
     return user;
   }

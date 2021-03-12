@@ -19,12 +19,20 @@ import { UserEntity, UsersRepository } from './infra';
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
       useClass: UsersRepository
+    },
+    {
+      provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
+      useClass: UsersRepository
     }
   ],
   exports: [
     {
       provide: UsersUseCasesConstants.CREATE_USER,
       useClass: CreateUserService
+    },
+    {
+      provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
+      useClass: UsersRepository
     }
   ]
 })
