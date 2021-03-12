@@ -12,7 +12,7 @@ import {
 import { TokenModel, TokenType } from '~/auth/domain';
 import { UserEntity } from '~/users/infra';
 
-@Entity('users')
+@Entity('tokens')
 export class TokenEntity implements TokenModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -30,7 +30,11 @@ export class TokenEntity implements TokenModel {
   @Column({ type: 'enum', enum: TokenType })
   type: TokenType;
 
-  @ManyToOne(() => UserEntity, { eager: true })
+  @ManyToOne(() => UserEntity, {
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
