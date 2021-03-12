@@ -16,4 +16,14 @@ describe('LocalStrategy', () => {
   it('should be defined', () => {
     expect(sut).toBeDefined();
   });
+
+  it('should fields', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(sut._usernameField).toBe('email');
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(sut._passwordField).toBe('password');
+  });
 });
