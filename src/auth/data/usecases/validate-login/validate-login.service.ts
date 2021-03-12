@@ -17,7 +17,6 @@ export class ValidateLoginService implements ValidateLogin {
 
   async execute(
     email: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     password: string
   ): Promise<UserModel | undefined> {
     const user = await this.findUserByEmailRepository.findByEmail(email);
@@ -28,6 +27,6 @@ export class ValidateLoginService implements ValidateLogin {
 
     if (!passwordMatched) return undefined;
 
-    return undefined;
+    return user;
   }
 }
