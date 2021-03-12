@@ -1,6 +1,10 @@
 import { Controller, Inject, Request } from '@nestjs/common';
 
+import { plainToClass } from 'class-transformer';
+
 import { AuthUseCasesConstants, GenerateJwtToken } from '~/auth/domain';
+
+import { LoginResponseDto } from '../../dtos';
 
 @Controller('login')
 export class LoginController {
@@ -9,10 +13,10 @@ export class LoginController {
     private readonly generateJwtToken: GenerateJwtToken
   ) {}
 
-  async store(@Request() request) {
+  async store(@Request() request): Promise<LoginResponseDto> {
     const { user } = request;
     const login = await this.generateJwtToken.execute(user);
 
-    return login;
+    return plainToClass(LoginResponseDto, login);
   }
 }
