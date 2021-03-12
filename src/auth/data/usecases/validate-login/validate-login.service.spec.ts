@@ -118,4 +118,20 @@ describe('ValidateLoginService', () => {
 
     await expect(sut.execute(email, password)).rejects.toThrow();
   });
+
+  it('should return user if Hash.compare return true', async () => {
+    const email = factories.faker.internet.email();
+    const password = factories.faker.internet.password();
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(findUserByEmailRepository, 'findByEmail')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+    jest.spyOn(hash, 'compare').mockReturnValueOnce(Promise.resolve(true));
+
+    const user = await sut.execute(email, password);
+
+    expect(user).toBeDefined();
+    expect(user).toEqual(userModel);
+  });
 });
