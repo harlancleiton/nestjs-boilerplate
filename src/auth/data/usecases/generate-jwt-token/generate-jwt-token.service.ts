@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import * as crypto from 'crypto';
+import { v4 as uuid } from 'uuid';
 
 import {
   AuthRepositoriesConstants,
@@ -31,7 +31,7 @@ export class GenerateJwtTokenService implements GenerateJwtToken {
     const refreshToken = await this.createTokenRepository.create({
       user,
       type: TokenType.JWT_REFRESH_TOKEN,
-      token: crypto.randomBytes(32).toString('hex')
+      token: uuid()
     });
 
     const refreshTokenEncrypted = this.encrypter.encrypt(refreshToken.token);
