@@ -103,4 +103,19 @@ describe('ValidateLoginService', () => {
 
     expect(user).toBeUndefined();
   });
+
+  it('should throw if Hash.compare throws', async () => {
+    const email = factories.faker.internet.email();
+    const password = factories.faker.internet.password();
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(findUserByEmailRepository, 'findByEmail')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+    jest.spyOn(hash, 'compare').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    await expect(sut.execute(email, password)).rejects.toThrow();
+  });
 });
