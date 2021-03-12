@@ -21,7 +21,7 @@ import { UserEntity, UsersRepository } from './infra';
       useClass: UsersRepository
     },
     {
-      provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
+      provide: UsersRepositoryConstants.FIND_USER_BY_ID_REPOSITORY,
       useClass: UsersRepository
     }
   ],
@@ -32,6 +32,10 @@ import { UserEntity, UsersRepository } from './infra';
     },
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
+      useClass: UsersRepository
+    },
+    {
+      provide: UsersRepositoryConstants.FIND_USER_BY_ID_REPOSITORY,
       useClass: UsersRepository
     }
   ]

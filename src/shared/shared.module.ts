@@ -18,6 +18,8 @@ import { BCryptAdapter, EventEmitterAdapter } from './infra';
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
         PORT: Joi.number().required(),
+        APP_KEY: Joi.string().length(32).required(),
+        JWT_EXPIRES: Joi.string().default('1d'),
         SALT_ROUNDS: Joi.number().default(10),
         DB_CONNECTION: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
