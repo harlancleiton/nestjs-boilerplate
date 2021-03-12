@@ -2,12 +2,15 @@ import { Module } from '@nestjs/common';
 
 import { UsersModule } from '~/users';
 
-import { RegisterController } from './presentation';
-import { JwtAuthGuard } from './presentation/guards';
+import {
+  RegisterController,
+  JwtAuthGuard,
+  LocalAuthGuard
+} from './presentation';
 
 @Module({
   imports: [UsersModule],
   controllers: [RegisterController],
-  providers: [JwtAuthGuard]
+  providers: [JwtAuthGuard, LocalAuthGuard]
 })
 export class AuthModule {}
