@@ -43,4 +43,17 @@ describe('ValidateLoginService', () => {
 
     expect(findUserByEmailRepository.findByEmail).toBeCalledWith(email);
   });
+
+  it('should return undefined if FindUserByEmailRepository return undefined', async () => {
+    const email = factories.faker.internet.email();
+    const password = factories.faker.internet.password();
+
+    jest
+      .spyOn(findUserByEmailRepository, 'findByEmail')
+      .mockReturnValueOnce(Promise.resolve(undefined));
+
+    const user = await sut.execute(email, password);
+
+    expect(user).toBeUndefined();
+  });
 });
