@@ -2,14 +2,14 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 
 import { plainToClass } from 'class-transformer';
 
-import { CreateUser } from '~/users/domain';
+import { CreateUser, UsersUseCasesConstants } from '~/users/domain';
 
 import { CreateUserDto, UserDto } from '../../dtos';
 
 @Controller('auth/register')
 export class RegisterController {
   constructor(
-    @Inject('CreateUser')
+    @Inject(UsersUseCasesConstants.CREATE_USER)
     private readonly createUser: CreateUser
   ) {}
 
