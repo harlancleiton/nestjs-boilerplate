@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersModule } from '~/users';
 
@@ -10,7 +11,8 @@ import {
   GenerateJwtTokenService,
   ValidateLoginService
 } from './data';
-import { AuthUseCasesConstants } from './domain';
+import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
+import { TokenEntity, TokensRepository } from './infra';
 import {
   LoginController,
   RegisterController,
@@ -22,6 +24,7 @@ import {
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([TokenEntity]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -52,6 +55,10 @@ import {
     {
       provide: AuthUseCasesConstants.VALIDATE_LOGIN,
       useClass: ValidateLoginService
+    },
+    {
+      provide: AuthRepositoriesConstants.CREATE_TOKEN_REPOSITORY,
+      useClass: TokensRepository
     }
   ]
 })
