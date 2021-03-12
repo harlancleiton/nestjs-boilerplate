@@ -3,7 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Event, Hash } from '~/shared/data';
 import { factories } from '~/test/factories';
-import { UserCreatedEvent, UsersRepositoryConstants } from '~/users/domain';
+import {
+  UserCreatedEvent,
+  UsersEventsContants,
+  UsersRepositoryConstants
+} from '~/users/domain';
 
 import {
   CreateUserRepository,
@@ -167,7 +171,7 @@ describe('CreateUserService', () => {
     expect(user).toBeDefined();
 
     expect(event.emit).toBeCalledWith(
-      'user.created',
+      UsersEventsContants.USER_CREATED,
       new UserCreatedEvent({ user })
     );
   });

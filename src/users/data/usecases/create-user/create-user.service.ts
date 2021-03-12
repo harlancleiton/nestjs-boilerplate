@@ -10,6 +10,7 @@ import {
   CreateUserModel,
   UserCreatedEvent,
   UserModel,
+  UsersEventsContants,
   UsersRepositoryConstants
 } from '~/users/domain';
 
@@ -55,7 +56,10 @@ export class CreateUserService implements CreateUser {
       birthdate
     });
 
-    this.event.emit('user.created', new UserCreatedEvent({ user }));
+    this.event.emit(
+      UsersEventsContants.USER_CREATED,
+      new UserCreatedEvent({ user })
+    );
 
     return user;
   }
