@@ -38,7 +38,7 @@ describe('LoginController', () => {
 
     jest.spyOn(generateJwtToken, 'execute');
 
-    await sut.store({ user });
+    await sut.store(user);
 
     expect(generateJwtToken.execute).toBeCalledWith(user);
   });
@@ -50,7 +50,7 @@ describe('LoginController', () => {
       throw new Error();
     });
 
-    await expect(sut.store({ user })).rejects.toThrow();
+    await expect(sut.store(user)).rejects.toThrow();
   });
 
   it('should return a new login response', async () => {
@@ -62,7 +62,7 @@ describe('LoginController', () => {
       .spyOn(generateJwtToken, 'execute')
       .mockReturnValueOnce(Promise.resolve(loginModel));
 
-    const login = await sut.store({ user });
+    const login = await sut.store(user);
 
     expect(login).toBeDefined();
     expect(login).toMatchObject({
@@ -81,7 +81,7 @@ describe('LoginController', () => {
       .spyOn(generateJwtToken, 'execute')
       .mockReturnValueOnce(Promise.resolve(loginModel));
 
-    const login = await sut.store({ user });
+    const login = await sut.store(user);
 
     expect(login.user).toBeDefined();
     expect(login.user.password).toBeUndefined();
