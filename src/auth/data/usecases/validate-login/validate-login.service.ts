@@ -24,7 +24,9 @@ export class ValidateLoginService implements ValidateLogin {
 
     if (!user) return undefined;
 
-    await this.hash.compare(password, user.password);
+    const passwordMatched = await this.hash.compare(password, user.password);
+
+    if (!passwordMatched) return undefined;
 
     return undefined;
   }
