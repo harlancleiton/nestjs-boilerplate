@@ -82,4 +82,19 @@ describe('LocalStrategy', () => {
     expect(user).toBeDefined();
     expect(user).toMatchObject({ id: userModel.id, email: userModel.email });
   });
+
+  it('should user password is undefined', async () => {
+    const email = factories.faker.internet.email();
+    const password = factories.faker.internet.password();
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(validateLogin, 'execute')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+
+    const user = await sut.validate(email, password);
+
+    expect(user).toBeDefined();
+    expect(user.password).toBeUndefined();
+  });
 });
