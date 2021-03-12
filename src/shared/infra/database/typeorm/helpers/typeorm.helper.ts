@@ -19,7 +19,7 @@ export class TypeOrmHelper {
     for (const entity of this.entities) {
       const repository = await this.getRepository(entity);
 
-      await repository.clear();
+      await repository.delete({});
     }
   }
 

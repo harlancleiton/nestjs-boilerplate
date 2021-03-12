@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
 import { AdaptersConstants } from './domain';
-import { BCryptAdapter, EventEmitterAdapter } from './infra';
+import { BCryptAdapter, EncrypterAdapter, EventEmitterAdapter } from './infra';
 
 @Global()
 @Module({
@@ -18,6 +18,9 @@ import { BCryptAdapter, EventEmitterAdapter } from './infra';
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
         PORT: Joi.number().required(),
+        APP_KEY: Joi.string().length(32).required(),
+        JWT_EXPIRES: Joi.string().default('1d'),
+        ENCRYPTER_ALGORITHM: Joi.string().default('aes-256-cbc'),
         SALT_ROUNDS: Joi.number().default(10),
         DB_CONNECTION: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
@@ -30,10 +33,12 @@ import { BCryptAdapter, EventEmitterAdapter } from './infra';
   ],
   providers: [
     { provide: AdaptersConstants.HASH, useClass: BCryptAdapter },
+    { provide: AdaptersConstants.ENCRYPTER, useClass: EncrypterAdapter },
     { provide: AdaptersConstants.EVENT, useClass: EventEmitterAdapter }
   ],
   exports: [
     { provide: AdaptersConstants.HASH, useClass: BCryptAdapter },
+    { provide: AdaptersConstants.ENCRYPTER, useClass: EncrypterAdapter },
     { provide: AdaptersConstants.EVENT, useClass: EventEmitterAdapter }
   ]
 })
