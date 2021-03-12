@@ -1,4 +1,4 @@
-import { Controller, Inject } from '@nestjs/common';
+import { Controller, Inject, Request } from '@nestjs/common';
 
 import { AuthUseCasesConstants, GenerateJwtToken } from '~/auth/domain';
 
@@ -8,4 +8,11 @@ export class LoginController {
     @Inject(AuthUseCasesConstants.GENERATE_JWT_TOKEN)
     private readonly generateJwtToken: GenerateJwtToken
   ) {}
+
+  async store(@Request() request) {
+    const { user } = request;
+    const login = await this.generateJwtToken.execute(user);
+
+    return login;
+  }
 }
