@@ -5,6 +5,7 @@ import * as request from 'supertest';
 
 import { TypeOrmHelper } from '~/shared/infra/database';
 import { CreateUserRepository } from '~/users/data';
+import { UsersRepositoryConstants } from '~/users/domain';
 
 import { AppModule } from './../src/app.module';
 import { factories } from './factories';
@@ -25,7 +26,9 @@ describe('Auth/RegisterController (e2e)', () => {
     await app.init();
 
     typeormHelper = moduleFixture.get(TypeOrmHelper);
-    createUserRepository = moduleFixture.get('CreateUserRepository');
+    createUserRepository = moduleFixture.get(
+      UsersRepositoryConstants.CREATE_USER_REPOSITORY
+    );
   });
 
   afterEach(async () => {

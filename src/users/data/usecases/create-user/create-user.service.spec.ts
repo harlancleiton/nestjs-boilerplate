@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Event, Hash } from '~/shared/data';
 import { factories } from '~/test/factories';
-import { UserCreatedEvent } from '~/users/domain';
+import { UserCreatedEvent, UsersRepositoryConstants } from '~/users/domain';
 
 import {
   CreateUserRepository,
@@ -28,11 +28,11 @@ describe('CreateUserService', () => {
       providers: [
         CreateUserService,
         {
-          provide: 'CreateUserRepository',
+          provide: UsersRepositoryConstants.CREATE_USER_REPOSITORY,
           useFactory: createUserRepositoryMock
         },
         {
-          provide: 'FindUserByEmailRepository',
+          provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
           useFactory: findUserByEmailRepositoryMock
         },
         { provide: 'Hash', useFactory: hashMock },

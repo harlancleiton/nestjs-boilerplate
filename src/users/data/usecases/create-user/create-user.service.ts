@@ -9,7 +9,8 @@ import {
   CreateUser,
   CreateUserModel,
   UserCreatedEvent,
-  UserModel
+  UserModel,
+  UsersRepositoryConstants
 } from '~/users/domain';
 
 import {
@@ -20,9 +21,9 @@ import {
 @Injectable()
 export class CreateUserService implements CreateUser {
   constructor(
-    @Inject('CreateUserRepository')
+    @Inject(UsersRepositoryConstants.CREATE_USER_REPOSITORY)
     private readonly createUserRepository: CreateUserRepository,
-    @Inject('FindUserByEmailRepository')
+    @Inject(UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY)
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     @Inject('Hash')
     private readonly hash: Hash,
