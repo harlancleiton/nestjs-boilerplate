@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { UsersModule } from '~/users';
 
-import { ValidateLoginService } from './data';
+import { FindUserByJwtTokenService, ValidateLoginService } from './data';
 import {
   RegisterController,
   JwtAuthGuard,
@@ -12,6 +12,11 @@ import {
 @Module({
   imports: [UsersModule],
   controllers: [RegisterController],
-  providers: [JwtAuthGuard, LocalAuthGuard, ValidateLoginService]
+  providers: [
+    JwtAuthGuard,
+    LocalAuthGuard,
+    FindUserByJwtTokenService,
+    ValidateLoginService
+  ]
 })
 export class AuthModule {}
