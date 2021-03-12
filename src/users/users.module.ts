@@ -4,9 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateUserService } from './data';
 import { UsersRepositoryConstants, UsersUseCasesConstants } from './domain';
 import { UserEntity, UsersRepository } from './infra';
+import { MeController } from './presentation';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
+  controllers: [MeController],
   providers: [
     {
       provide: UsersUseCasesConstants.CREATE_USER,
