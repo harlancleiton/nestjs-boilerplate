@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import * as Joi from 'joi';
 
+import { AdaptersConstants } from './domain';
 import { BCryptAdapter, EventEmitterAdapter } from './infra';
 
 @Global()
@@ -28,12 +29,12 @@ import { BCryptAdapter, EventEmitterAdapter } from './infra';
     })
   ],
   providers: [
-    { provide: 'Hash', useClass: BCryptAdapter },
-    { provide: 'Event', useClass: EventEmitterAdapter }
+    { provide: AdaptersConstants.HASH, useClass: BCryptAdapter },
+    { provide: AdaptersConstants.EVENT, useClass: EventEmitterAdapter }
   ],
   exports: [
-    { provide: 'Hash', useClass: BCryptAdapter },
-    { provide: 'Event', useClass: EventEmitterAdapter }
+    { provide: AdaptersConstants.HASH, useClass: BCryptAdapter },
+    { provide: AdaptersConstants.EVENT, useClass: EventEmitterAdapter }
   ]
 })
 export class SharedModule {}

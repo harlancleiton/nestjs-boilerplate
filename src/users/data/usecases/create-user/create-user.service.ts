@@ -5,11 +5,14 @@ import {
 } from '@nestjs/common';
 
 import { Event, Hash } from '~/shared/data';
+import { AdaptersConstants } from '~/shared/domain';
 import {
   CreateUser,
   CreateUserModel,
   UserCreatedEvent,
-  UserModel
+  UserModel,
+  UsersEventsContants,
+  UsersRepositoryConstants
 } from '~/users/domain';
 
 import {
@@ -20,13 +23,13 @@ import {
 @Injectable()
 export class CreateUserService implements CreateUser {
   constructor(
-    @Inject('CreateUserRepository')
+    @Inject(UsersRepositoryConstants.CREATE_USER_REPOSITORY)
     private readonly createUserRepository: CreateUserRepository,
-    @Inject('FindUserByEmailRepository')
+    @Inject(UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY)
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
-    @Inject('Hash')
+    @Inject(AdaptersConstants.HASH)
     private readonly hash: Hash,
-    @Inject('Event')
+    @Inject(AdaptersConstants.EVENT)
     private readonly event: Event
   ) {}
 
@@ -54,7 +57,10 @@ export class CreateUserService implements CreateUser {
       birthdate
     });
 
-    this.event.emit('user.created', new UserCreatedEvent({ user }));
+    this.event.emit(
+      UsersEventsContants.USER_CREATED,
+      new UserCreatedEvent({ user })
+    );
 
     return user;
   }

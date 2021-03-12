@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
 
 import { factories } from '~/test/factories';
-import { CreateUser } from '~/users/domain';
+import { CreateUser, UsersUseCasesConstants } from '~/users/domain';
 
 import { CreateUserDto, UserDto } from '../../dtos';
 import { RegisterController } from './register.controller';
@@ -17,7 +17,12 @@ describe('RegisterController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [RegisterController],
-      providers: [{ provide: 'CreateUser', useFactory: createUserMock }]
+      providers: [
+        {
+          provide: UsersUseCasesConstants.CREATE_USER,
+          useFactory: createUserMock
+        }
+      ]
     }).compile();
 
     sut = module.get(RegisterController);
