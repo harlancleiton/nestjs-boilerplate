@@ -1,10 +1,11 @@
-import { Controller, Inject, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Inject, Post, UseGuards } from '@nestjs/common';
 
 import { plainToClass } from 'class-transformer';
 
 import { AuthUseCasesConstants, GenerateJwtToken } from '~/auth/domain';
 
-import { LoginResponseDto } from '../../dtos';
+import { User } from '../../decorators';
+import { LoginResponseDto, UserDto } from '../../dtos';
 import { LocalAuthGuard } from '../../guards';
 
 @Controller('/auth/login')
@@ -16,8 +17,7 @@ export class LoginController {
 
   @Post()
   @UseGuards(LocalAuthGuard)
-  async store(@Request() request): Promise<LoginResponseDto> {
-    const { user } = request;
+  async store(@User() user: UserDto): Promise<LoginResponseDto> {
     const login = await this.generateJwtToken.execute(user);
 
     return plainToClass(LoginResponseDto, login);
