@@ -1,3 +1,4 @@
+import { UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -40,11 +41,26 @@ describe('JwtStrategy', () => {
   it('should call FindUserByJwtToken with correct values', async () => {
     // TODO add factory
     const token = { sub: factories.faker.random.alphaNumeric(32) };
+    const userModel = factories.userModel.build();
 
-    jest.spyOn(findUserByJwtToken, 'execute');
+    jest
+      .spyOn(findUserByJwtToken, 'execute')
+      .mockReturnValueOnce(Promise.resolve(userModel));
 
     await sut.validate(token);
 
     expect(findUserByJwtToken.execute).toBeCalledWith(token);
+  });
+
+  it('should throw if user not found', async () => {
+    const token = { sub: factories.faker.random.alphaNumeric(32) };
+
+    jest
+      .spyOn(findUserByJwtToken, 'execute')
+      .mockReturnValueOnce(Promise.resolve(undefined));
+
+    await expect(sut.validate(token)).rejects.toThrowError(
+      UnauthorizedException
+    );
   });
 });
