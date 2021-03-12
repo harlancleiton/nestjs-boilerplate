@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/harlancleiton/nestjs-boilerplate/compare/v0.1.2...v0.1.3) (2021-03-12)
+
+
+### Features
+
+* ensure CreateUserService should be emit event when create user ([034afc0](https://github.com/harlancleiton/nestjs-boilerplate/commit/034afc0d19124f9f09c2923d7545bdcbb34f79f0))
+* ensure EventEmitterAdapter should be defined ([9701d98](https://github.com/harlancleiton/nestjs-boilerplate/commit/9701d98b357e6f984f12681e4d7021fea6ef94d8))
+* ensure EventEmitterAdapter should call EventEmitter.emit with correct values ([41a90f9](https://github.com/harlancleiton/nestjs-boilerplate/commit/41a90f961d28d3cead18a27ec0cf6d5274f7ce9f))
+* ensure EventEmitterAdapter should call EventEmitter.emitAsync with correct values ([e56ec2f](https://github.com/harlancleiton/nestjs-boilerplate/commit/e56ec2ff113f70a15cca14d0e95c272497653f88))
+
 ### [0.1.2](https://github.com/harlancleiton/nestjs-boilerplate/compare/v0.1.1...v0.1.2) (2021-03-11)
 
 
