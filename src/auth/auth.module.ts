@@ -5,7 +5,11 @@ import { PassportModule } from '@nestjs/passport';
 
 import { UsersModule } from '~/users';
 
-import { FindUserByJwtTokenService, ValidateLoginService } from './data';
+import {
+  FindUserByJwtTokenService,
+  GenerateJwtTokenService,
+  ValidateLoginService
+} from './data';
 import { AuthUseCasesConstants } from './domain';
 import {
   LoginController,
@@ -40,6 +44,10 @@ import {
     {
       provide: AuthUseCasesConstants.FIND_USER_BY_JWT_TOKEN,
       useClass: FindUserByJwtTokenService
+    },
+    {
+      provide: AuthUseCasesConstants.GENERATE_JWT_TOKEN,
+      useClass: GenerateJwtTokenService
     },
     {
       provide: AuthUseCasesConstants.VALIDATE_LOGIN,
