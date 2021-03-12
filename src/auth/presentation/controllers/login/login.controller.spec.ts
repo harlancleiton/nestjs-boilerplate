@@ -52,4 +52,23 @@ describe('LoginController', () => {
 
     await expect(sut.store({ user })).rejects.toThrow();
   });
+
+  it('should return a new login response', async () => {
+    const userModel = factories.userModel.build();
+    const user = plainToClass(UserDto, userModel);
+    const loginModel = factories.loginModel.build({ user: userModel });
+
+    jest
+      .spyOn(generateJwtToken, 'execute')
+      .mockReturnValueOnce(Promise.resolve(loginModel));
+
+    const login = await sut.store({ user });
+
+    expect(login).toBeDefined();
+    expect(login).toMatchObject({
+      token: loginModel.token,
+      refreshToken: loginModel.refreshToken,
+      user: { id: loginModel.user.id }
+    });
+  });
 });
