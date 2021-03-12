@@ -1,3 +1,4 @@
+import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AuthUseCasesConstants, ValidateLogin } from '~/auth/domain';
@@ -43,11 +44,27 @@ describe('LocalStrategy', () => {
   it('should call ValidateLogin with correct values', async () => {
     const email = factories.faker.internet.email();
     const password = factories.faker.internet.password();
+    const userModel = factories.userModel.build();
 
-    jest.spyOn(validateLogin, 'execute');
+    jest
+      .spyOn(validateLogin, 'execute')
+      .mockReturnValueOnce(Promise.resolve(userModel));
 
     await sut.validate(email, password);
 
     expect(validateLogin.execute).toBeCalledWith(email, password);
+  });
+
+  it('should throw if user not found', async () => {
+    const email = factories.faker.internet.email();
+    const password = factories.faker.internet.password();
+
+    jest
+      .spyOn(validateLogin, 'execute')
+      .mockReturnValueOnce(Promise.resolve(undefined));
+
+    await expect(sut.validate(email, password)).rejects.toThrowError(
+      UnauthorizedException
+    );
   });
 });
