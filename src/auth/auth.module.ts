@@ -8,6 +8,7 @@ import { UsersModule } from '~/users';
 import { FindUserByJwtTokenService, ValidateLoginService } from './data';
 import { AuthUseCasesConstants } from './domain';
 import {
+  LoginController,
   RegisterController,
   JwtAuthGuard,
   LocalAuthGuard,
@@ -28,7 +29,7 @@ import {
 
     UsersModule
   ],
-  controllers: [RegisterController],
+  controllers: [LoginController, RegisterController],
   providers: [
     JwtAuthGuard,
     LocalAuthGuard,
