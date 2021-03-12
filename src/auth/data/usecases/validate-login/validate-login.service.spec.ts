@@ -90,4 +90,17 @@ describe('ValidateLoginService', () => {
 
     expect(hash.compare).toBeCalledWith(password, userModel.password);
   });
+
+  it('should return undefined if Hash.compare return false', async () => {
+    const email = factories.faker.internet.email();
+    const password = factories.faker.internet.password();
+
+    jest
+      .spyOn(findUserByEmailRepository, 'findByEmail')
+      .mockReturnValueOnce(Promise.resolve(undefined));
+
+    const user = await sut.execute(email, password);
+
+    expect(user).toBeUndefined();
+  });
 });
