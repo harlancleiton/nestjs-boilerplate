@@ -56,4 +56,17 @@ describe('ValidateLoginService', () => {
 
     expect(user).toBeUndefined();
   });
+
+  it('should throw if FindUserByEmailRepository throws', async () => {
+    const email = factories.faker.internet.email();
+    const password = factories.faker.internet.password();
+
+    jest
+      .spyOn(findUserByEmailRepository, 'findByEmail')
+      .mockImplementationOnce(async () => {
+        throw new Error();
+      });
+
+    await expect(sut.execute(email, password)).rejects.toThrow();
+  });
 });
