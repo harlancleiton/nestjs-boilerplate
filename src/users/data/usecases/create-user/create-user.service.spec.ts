@@ -2,6 +2,7 @@ import { UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Event, Hash } from '~/shared/data';
+import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 import {
   UserCreatedEvent,
@@ -39,8 +40,8 @@ describe('CreateUserService', () => {
           provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
           useFactory: findUserByEmailRepositoryMock
         },
-        { provide: 'Hash', useFactory: hashMock },
-        { provide: 'Event', useFactory: eventMock }
+        { provide: AdaptersConstants.HASH, useFactory: hashMock },
+        { provide: AdaptersConstants.EVENT, useFactory: eventMock }
       ]
     }).compile();
 

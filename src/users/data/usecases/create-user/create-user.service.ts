@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { Event, Hash } from '~/shared/data';
+import { AdaptersConstants } from '~/shared/domain';
 import {
   CreateUser,
   CreateUserModel,
@@ -26,9 +27,9 @@ export class CreateUserService implements CreateUser {
     private readonly createUserRepository: CreateUserRepository,
     @Inject(UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY)
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
-    @Inject('Hash')
+    @Inject(AdaptersConstants.HASH)
     private readonly hash: Hash,
-    @Inject('Event')
+    @Inject(AdaptersConstants.EVENT)
     private readonly event: Event
   ) {}
 
