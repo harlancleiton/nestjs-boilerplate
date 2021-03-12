@@ -42,4 +42,14 @@ describe('LoginController', () => {
 
     expect(generateJwtToken.execute).toBeCalledWith(user);
   });
+
+  it('should throw if GenerateJwtToken throws', async () => {
+    const user = plainToClass(UserDto, factories.userModel.build());
+
+    jest.spyOn(generateJwtToken, 'execute').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    await expect(sut.store({ user })).rejects.toThrow();
+  });
 });
