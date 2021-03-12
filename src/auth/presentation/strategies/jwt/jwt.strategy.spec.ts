@@ -77,4 +77,18 @@ describe('JwtStrategy', () => {
     expect(user).toBeDefined();
     expect(user).toMatchObject({ id: userModel.id, email: userModel.email });
   });
+
+  it('should user password is undefined', async () => {
+    const token = { sub: factories.faker.random.alphaNumeric(32) };
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(findUserByJwtToken, 'execute')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+
+    const user = await sut.validate(token);
+
+    expect(user).toBeDefined();
+    expect(user.password).toBeUndefined();
+  });
 });
