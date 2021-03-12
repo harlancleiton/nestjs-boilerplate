@@ -71,4 +71,19 @@ describe('LoginController', () => {
       user: { id: loginModel.user.id }
     });
   });
+
+  it('should not return user password', async () => {
+    const userModel = factories.userModel.build();
+    const user = plainToClass(UserDto, userModel);
+    const loginModel = factories.loginModel.build({ user: userModel });
+
+    jest
+      .spyOn(generateJwtToken, 'execute')
+      .mockReturnValueOnce(Promise.resolve(loginModel));
+
+    const login = await sut.store({ user });
+
+    expect(login.user).toBeDefined();
+    expect(login.user.password).toBeUndefined();
+  });
 });
