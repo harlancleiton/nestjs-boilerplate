@@ -45,4 +45,19 @@ describe('SendMailService', () => {
       to: `${userModel.firstname} <${userModel.email}>`
     });
   });
+
+  it('should throw if Mailer throws', async () => {
+    const userModel = factories.userModel.build();
+    const options = {
+      subject: factories.faker.lorem.sentence(),
+      template: factories.faker.lorem.word(),
+      context: { user: userModel }
+    };
+
+    jest.spyOn(mailer, 'sendMail').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    await expect(sut.execute(userModel, options)).rejects.toThrow();
+  });
 });
