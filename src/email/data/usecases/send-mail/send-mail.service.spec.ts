@@ -60,4 +60,36 @@ describe('SendMailService', () => {
 
     await expect(sut.execute(userModel, options)).rejects.toThrow();
   });
+
+  it('should be return a SentMessageInfo', async () => {
+    const userModel = factories.userModel.build();
+    const options = {
+      subject: factories.faker.lorem.sentence(),
+      template: factories.faker.lorem.word(),
+      context: { user: userModel }
+    };
+
+    const messageInfoMock = {
+      accepted: [userModel.email],
+      rejected: [],
+      envelopeTime: factories.faker.random.number(),
+      messageTime: factories.faker.random.number(),
+      messageSize: factories.faker.random.number(),
+      response: factories.faker.lorem.sentence(),
+      envelope: {
+        from: 'naoresponder@gobarber.com.br',
+        to: ['harlancleiton@gmail.com']
+      },
+      messageId: factories.faker.random.uuid()
+    };
+
+    jest
+      .spyOn(mailer, 'sendMail')
+      .mockReturnValueOnce(Promise.resolve(messageInfoMock));
+
+    const messageInfo = await sut.execute(userModel, options);
+
+    expect(messageInfo).toBeDefined();
+    expect(messageInfo).toEqual(messageInfoMock);
+  });
 });
