@@ -77,8 +77,8 @@ describe('SendMailService', () => {
       messageSize: factories.faker.random.number(),
       response: factories.faker.lorem.sentence(),
       envelope: {
-        from: 'naoresponder@gobarber.com.br',
-        to: ['harlancleiton@gmail.com']
+        from: factories.faker.internet.email(),
+        to: [factories.faker.internet.email()]
       },
       messageId: factories.faker.random.uuid()
     };

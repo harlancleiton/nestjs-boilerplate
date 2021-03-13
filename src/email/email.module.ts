@@ -6,7 +6,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import * as path from 'path';
 
 import { SendMailService } from './data';
-import { EmailUseCasesConstants } from './domain';
+import { EmailAdaptersConstants, EmailUseCasesConstants } from './domain';
+import { MailerServiceAdapter } from './infra';
 
 @Module({
   imports: [
@@ -27,6 +28,8 @@ import { EmailUseCasesConstants } from './domain';
         template: {
           dir: path.resolve(
             process.env.PWD,
+            'src',
+            'email',
             'infra',
             'handlebars',
             'views',
@@ -41,6 +44,8 @@ import { EmailUseCasesConstants } from './domain';
           partials: {
             dir: path.resolve(
               process.env.PWD,
+              'src',
+              'email',
               'infra',
               'handlebars',
               'views',
@@ -55,9 +60,11 @@ import { EmailUseCasesConstants } from './domain';
     })
   ],
   providers: [
+    { provide: EmailAdaptersConstants.MAILER, useClass: MailerServiceAdapter },
     { provide: EmailUseCasesConstants.SEND_MAIL, useClass: SendMailService }
   ],
   exports: [
+    { provide: EmailAdaptersConstants.MAILER, useClass: MailerServiceAdapter },
     { provide: EmailUseCasesConstants.SEND_MAIL, useClass: SendMailService }
   ]
 })
