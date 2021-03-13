@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CreateUserService } from './data';
+import { EmailModule } from '~/email';
+
+import { CreateUserService, UserCreatedListener } from './data';
 import { UsersRepositoryConstants, UsersUseCasesConstants } from './domain';
 import { UserEntity, UsersRepository } from './infra';
 import { MeController } from './presentation';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity]), EmailModule],
   controllers: [MeController],
   providers: [
     {
@@ -25,7 +27,9 @@ import { MeController } from './presentation';
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_ID_REPOSITORY,
       useClass: UsersRepository
-    }
+    },
+
+    UserCreatedListener
   ],
   exports: [
     {
