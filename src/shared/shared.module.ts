@@ -27,7 +27,14 @@ import { BCryptAdapter, EncrypterAdapter, EventEmitterAdapter } from './infra';
         DB_HOST: Joi.string(),
         DB_PORT: Joi.number(),
         DB_USERNAME: Joi.string(),
-        DB_PASSWORD: Joi.string()
+        DB_PASSWORD: Joi.string(),
+        SMTP_HOST: Joi.string().required(),
+        SMTP_PORT: Joi.number().required(),
+        SMTP_USER: Joi.string().required(),
+        SMTP_PASSWORD: Joi.string().required(),
+        SMTP_SENDER: Joi.string().default(
+          '"Equipe NestJS" <noreply@nestjs.com>'
+        )
       })
     })
   ],
