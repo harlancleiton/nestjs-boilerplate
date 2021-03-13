@@ -6,13 +6,16 @@ import { AuthModule } from '~/auth';
 import { SharedModule } from '~/shared';
 import { UsersModule } from '~/users';
 
+import { EmailModule } from './email/email.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({ keepConnectionAlive: true }),
     EventEmitterModule.forRoot(),
     AuthModule,
     SharedModule,
-    UsersModule
+    UsersModule,
+    EmailModule
   ]
 })
 export class AppModule {}
