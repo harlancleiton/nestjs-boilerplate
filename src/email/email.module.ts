@@ -1,3 +1,4 @@
+import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
@@ -6,11 +7,13 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import * as path from 'path';
 
 import { SendMailService, UserCreatedListener } from './data';
+import { SendMailConsumer } from './data/consumers';
 import { EmailAdaptersConstants, EmailUseCasesConstants } from './domain';
 import { MailerServiceAdapter } from './infra';
 
 @Module({
   imports: [
+    BullModule.registerQueue({ name: 'SendMail' }),
     MailerModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -62,7 +65,8 @@ import { MailerServiceAdapter } from './infra';
   providers: [
     { provide: EmailAdaptersConstants.MAILER, useClass: MailerServiceAdapter },
     { provide: EmailUseCasesConstants.SEND_MAIL, useClass: SendMailService },
-    UserCreatedListener
+    UserCreatedListener,
+    SendMailConsumer
   ],
   exports: [
     { provide: EmailAdaptersConstants.MAILER, useClass: MailerServiceAdapter },
