@@ -22,6 +22,8 @@ import { BCryptAdapter, EncrypterAdapter, EventEmitterAdapter } from './infra';
         JWT_EXPIRES: Joi.string().default('1d'),
         ENCRYPTER_ALGORITHM: Joi.string().default('aes-256-cbc'),
         SALT_ROUNDS: Joi.number().default(10),
+        BULL_BOARD_ENABLE: Joi.boolean().required(),
+        BULL_BOARD_ENDPOINT: Joi.string().default('/queues'),
         DB_CONNECTION: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
         DB_HOST: Joi.string(),

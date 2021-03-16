@@ -41,6 +41,7 @@
     "@nestjs/typeorm": "^7.1.5",
     "bcryptjs": "^2.4.3",
     "bull": "^3.20.1",
+    "bull-board": "^1.4.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "handlebars": "^4.7.7",
