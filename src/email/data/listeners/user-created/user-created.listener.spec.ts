@@ -1,30 +1,32 @@
+import { getQueueToken } from '@nestjs/bull';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { EmailUseCasesConstants, SendMail } from '~/email/domain';
+import { Queue } from '~/shared/data';
 import { factories } from '~/test/factories';
 import { UserCreatedEvent } from '~/users/domain';
 
+import { SendMailConsumerData } from '../../consumers';
 import { UserCreatedListener } from './user-created.listener';
 
 describe('UserCreatedListener', () => {
-  const sendMailMock = () => ({ execute: jest.fn() });
+  const queueMock = () => ({ add: jest.fn() });
 
   let userCreatedListener: UserCreatedListener;
-  let sendMail: SendMail;
+  let queue: Queue<SendMailConsumerData>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserCreatedListener,
         {
-          provide: EmailUseCasesConstants.SEND_MAIL,
-          useFactory: sendMailMock
+          provide: getQueueToken('SendMail'),
+          useFactory: queueMock
         }
       ]
     }).compile();
 
     userCreatedListener = module.get(UserCreatedListener);
-    sendMail = module.get(EmailUseCasesConstants.SEND_MAIL);
+    queue = module.get(getQueueToken('SendMail'));
   });
 
   it('should be defined', () => {
@@ -41,6 +43,6 @@ describe('UserCreatedListener', () => {
 
     await userCreatedListener.handleEvent(new UserCreatedEvent({ user }));
 
-    expect(sendMail.execute).toBeCalledWith(user, options);
+    expect(queue.add).toBeCalledWith({ user, options });
   });
 });
