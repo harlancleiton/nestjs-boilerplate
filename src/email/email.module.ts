@@ -5,7 +5,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import * as path from 'path';
 
-import { SendMailService } from './data';
+import { SendMailService, UserCreatedListener } from './data';
 import { EmailAdaptersConstants, EmailUseCasesConstants } from './domain';
 import { MailerServiceAdapter } from './infra';
 
@@ -61,7 +61,8 @@ import { MailerServiceAdapter } from './infra';
   ],
   providers: [
     { provide: EmailAdaptersConstants.MAILER, useClass: MailerServiceAdapter },
-    { provide: EmailUseCasesConstants.SEND_MAIL, useClass: SendMailService }
+    { provide: EmailUseCasesConstants.SEND_MAIL, useClass: SendMailService },
+    UserCreatedListener
   ],
   exports: [
     { provide: EmailAdaptersConstants.MAILER, useClass: MailerServiceAdapter },
