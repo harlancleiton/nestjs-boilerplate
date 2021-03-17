@@ -35,4 +35,14 @@ describe('RefreshJwtTokenService', () => {
 
     expect(encrypter.decrypt).toBeCalledWith(encryptedToken);
   });
+
+  it('should throw if Encrypter throws', async () => {
+    const encryptedToken = factories.faker.random.alphaNumeric(32);
+
+    jest.spyOn(encrypter, 'decrypt').mockImplementation(() => {
+      throw new Error();
+    });
+
+    await expect(sut.execute(encryptedToken)).rejects.toThrow();
+  });
 });
