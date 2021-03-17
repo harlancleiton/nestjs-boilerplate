@@ -9,6 +9,7 @@ import { UsersModule } from '~/users';
 import {
   FindUserByJwtTokenService,
   GenerateJwtTokenService,
+  RefreshJwtTokenService,
   ValidateLoginService
 } from './data';
 import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
@@ -59,7 +60,8 @@ import {
     {
       provide: AuthRepositoriesConstants.CREATE_TOKEN_REPOSITORY,
       useClass: TokensRepository
-    }
+    },
+    RefreshJwtTokenService
   ]
 })
 export class AuthModule {}
