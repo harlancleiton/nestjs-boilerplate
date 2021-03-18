@@ -71,4 +71,19 @@ describe('RefreshJwtTokenService', () => {
 
     expect(findRefreshTokenRepository.findRefreshToken).toBeCalledWith(uuid);
   });
+
+  it('should throw if FindRefreshTokenRepository throws', async () => {
+    const encryptedToken = factories.faker.random.alphaNumeric(32);
+    const uuid = factories.faker.random.uuid();
+
+    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
+
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    await expect(sut.execute(encryptedToken)).rejects.toThrow();
+  });
 });
