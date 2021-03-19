@@ -10,7 +10,10 @@ import {
 import { Encrypter } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';
 
-import { FindRefreshTokenRepository } from '../../repositories';
+import {
+  FindRefreshTokenRepository,
+  RemoveTokenRepository
+} from '../../repositories';
 
 @Injectable()
 export class RefreshJwtTokenService implements RefreshJwtToken {
@@ -20,7 +23,9 @@ export class RefreshJwtTokenService implements RefreshJwtToken {
     @Inject(AuthRepositoriesConstants.FIND_REFRESH_TOKEN_REPOSITORY)
     private readonly findRefreshTokenRepository: FindRefreshTokenRepository,
     @Inject(AuthUseCasesConstants.GENERATE_JWT_TOKEN)
-    private readonly generateJwtToken: GenerateJwtToken
+    private readonly generateJwtToken: GenerateJwtToken,
+    @Inject(AuthRepositoriesConstants.REMOVE_TOKEN_REPOSITORY)
+    private readonly removeTokenRepository: RemoveTokenRepository
   ) {}
 
   async execute(encryptedToken: string): Promise<LoginModel> {
@@ -32,6 +37,8 @@ export class RefreshJwtTokenService implements RefreshJwtToken {
     if (!refreshToken) throw new UnauthorizedException();
 
     await this.generateJwtToken.execute(refreshToken.user);
+
+    await this.removeTokenRepository.remove(refreshToken);
 
     return undefined;
   }
