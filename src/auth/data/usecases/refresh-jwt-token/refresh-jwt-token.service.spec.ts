@@ -1,7 +1,11 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthRepositoriesConstants } from '~/auth/domain';
+import {
+  AuthRepositoriesConstants,
+  AuthUseCasesConstants,
+  GenerateJwtToken
+} from '~/auth/domain';
 import { Encrypter } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
@@ -14,10 +18,12 @@ describe('RefreshJwtTokenService', () => {
   const findRefreshTokenRepositoryMock = () => ({
     findRefreshToken: jest.fn()
   });
+  const generateJwtTokenMock = () => ({ execute: jest.fn() });
 
   let sut: RefreshJwtTokenService;
   let encrypter: Encrypter;
   let findRefreshTokenRepository: FindRefreshTokenRepository;
+  let generateJwtToken: GenerateJwtToken;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,6 +33,10 @@ describe('RefreshJwtTokenService', () => {
         {
           provide: AuthRepositoriesConstants.FIND_REFRESH_TOKEN_REPOSITORY,
           useFactory: findRefreshTokenRepositoryMock
+        },
+        {
+          provide: AuthUseCasesConstants.GENERATE_JWT_TOKEN,
+          useFactory: generateJwtTokenMock
         }
       ]
     }).compile();
@@ -36,6 +46,7 @@ describe('RefreshJwtTokenService', () => {
     findRefreshTokenRepository = module.get(
       AuthRepositoriesConstants.FIND_REFRESH_TOKEN_REPOSITORY
     );
+    generateJwtToken = module.get(AuthUseCasesConstants.GENERATE_JWT_TOKEN);
   });
 
   it('should be defined', () => {
@@ -109,5 +120,23 @@ describe('RefreshJwtTokenService', () => {
     await expect(sut.execute(encryptedToken)).rejects.toThrowError(
       UnauthorizedException
     );
+  });
+
+  it('should be call GenerateJwtToken with correct values', async () => {
+    const encryptedToken = factories.faker.random.alphaNumeric(32);
+    const uuid = factories.faker.random.uuid();
+    const token = factories.tokenModel.build();
+
+    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
+
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockReturnValueOnce(Promise.resolve(token));
+
+    jest.spyOn(generateJwtToken, 'execute');
+
+    await sut.execute(encryptedToken);
+
+    expect(generateJwtToken.execute).toBeCalledWith(token.user);
   });
 });
