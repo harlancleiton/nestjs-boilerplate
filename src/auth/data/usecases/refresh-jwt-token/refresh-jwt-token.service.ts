@@ -2,6 +2,8 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import {
   AuthRepositoriesConstants,
+  AuthUseCasesConstants,
+  GenerateJwtToken,
   LoginModel,
   RefreshJwtToken
 } from '~/auth/domain';
@@ -16,7 +18,9 @@ export class RefreshJwtTokenService implements RefreshJwtToken {
     @Inject(AdaptersConstants.ENCRYPTER)
     private readonly encrypter: Encrypter,
     @Inject(AuthRepositoriesConstants.FIND_REFRESH_TOKEN_REPOSITORY)
-    private readonly findRefreshTokenRepository: FindRefreshTokenRepository
+    private readonly findRefreshTokenRepository: FindRefreshTokenRepository,
+    @Inject(AuthUseCasesConstants.GENERATE_JWT_TOKEN)
+    private readonly generateJwtToken: GenerateJwtToken
   ) {}
 
   async execute(encryptedToken: string): Promise<LoginModel> {
@@ -26,6 +30,8 @@ export class RefreshJwtTokenService implements RefreshJwtToken {
     );
 
     if (!refreshToken) throw new UnauthorizedException();
+
+    await this.generateJwtToken.execute(refreshToken.user);
 
     return undefined;
   }
