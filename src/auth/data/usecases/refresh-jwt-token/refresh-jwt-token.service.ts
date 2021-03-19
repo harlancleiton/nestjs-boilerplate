@@ -36,10 +36,10 @@ export class RefreshJwtTokenService implements RefreshJwtToken {
 
     if (!refreshToken) throw new UnauthorizedException();
 
-    await this.generateJwtToken.execute(refreshToken.user);
+    const login = await this.generateJwtToken.execute(refreshToken.user);
 
     await this.removeTokenRepository.remove(refreshToken);
 
-    return undefined;
+    return login;
   }
 }
