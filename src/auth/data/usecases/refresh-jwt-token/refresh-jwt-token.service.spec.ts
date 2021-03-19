@@ -205,4 +205,23 @@ describe('RefreshJwtTokenService', () => {
 
     await expect(sut.execute(encryptedToken)).rejects.toThrow();
   });
+
+  it('should be return a LoginModel', async () => {
+    const encryptedToken = factories.faker.random.alphaNumeric(32);
+    const token = factories.tokenModel.build();
+    const loginModel = factories.loginModel.build();
+
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockReturnValueOnce(Promise.resolve(token));
+
+    jest
+      .spyOn(generateJwtToken, 'execute')
+      .mockReturnValueOnce(Promise.resolve(loginModel));
+
+    const login = await sut.execute(encryptedToken);
+
+    expect(login).toBeDefined();
+    expect(login).toEqual(loginModel);
+  });
 });
