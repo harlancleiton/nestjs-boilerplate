@@ -10,7 +10,10 @@ import { Encrypter } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 
-import { FindRefreshTokenRepository } from '../../repositories';
+import {
+  FindRefreshTokenRepository,
+  RemoveTokenRepository
+} from '../../repositories';
 import { RefreshJwtTokenService } from './refresh-jwt-token.service';
 
 describe('RefreshJwtTokenService', () => {
@@ -19,11 +22,13 @@ describe('RefreshJwtTokenService', () => {
     findRefreshToken: jest.fn()
   });
   const generateJwtTokenMock = () => ({ execute: jest.fn() });
+  const removeTokenRepositoryMock = () => ({ remove: jest.fn() });
 
   let sut: RefreshJwtTokenService;
   let encrypter: Encrypter;
   let findRefreshTokenRepository: FindRefreshTokenRepository;
   let generateJwtToken: GenerateJwtToken;
+  let removeTokenRepository: RemoveTokenRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -37,6 +42,10 @@ describe('RefreshJwtTokenService', () => {
         {
           provide: AuthUseCasesConstants.GENERATE_JWT_TOKEN,
           useFactory: generateJwtTokenMock
+        },
+        {
+          provide: AuthRepositoriesConstants.REMOVE_TOKEN_REPOSITORY,
+          useFactory: removeTokenRepositoryMock
         }
       ]
     }).compile();
@@ -47,6 +56,9 @@ describe('RefreshJwtTokenService', () => {
       AuthRepositoriesConstants.FIND_REFRESH_TOKEN_REPOSITORY
     );
     generateJwtToken = module.get(AuthUseCasesConstants.GENERATE_JWT_TOKEN);
+    removeTokenRepository = module.get(
+      AuthRepositoriesConstants.REMOVE_TOKEN_REPOSITORY
+    );
   });
 
   it('should be defined', () => {
@@ -156,5 +168,23 @@ describe('RefreshJwtTokenService', () => {
     });
 
     await expect(sut.execute(encryptedToken)).rejects.toThrow();
+  });
+
+  it('should be call RemoveTokenRepository with correct value', async () => {
+    const encryptedToken = factories.faker.random.alphaNumeric(32);
+    const uuid = factories.faker.random.uuid();
+    const token = factories.tokenModel.build();
+
+    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
+
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockReturnValueOnce(Promise.resolve(token));
+
+    jest.spyOn(removeTokenRepository, 'remove');
+
+    await sut.execute(encryptedToken);
+
+    expect(removeTokenRepository.remove).toBeCalledWith(token);
   });
 });
