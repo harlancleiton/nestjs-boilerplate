@@ -1,3 +1,4 @@
+import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AuthRepositoriesConstants } from '~/auth/domain';
@@ -43,6 +44,11 @@ describe('RefreshJwtTokenService', () => {
 
   it('should be call Encrypter with correct value', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
+    const token = factories.tokenModel.build();
+
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockReturnValueOnce(Promise.resolve(token));
 
     await sut.execute(encryptedToken);
 
@@ -62,10 +68,13 @@ describe('RefreshJwtTokenService', () => {
   it('should be call FindRefreshTokenRepository with correct value', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
     const uuid = factories.faker.random.uuid();
+    const token = factories.tokenModel.build();
 
     jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
 
-    jest.spyOn(findRefreshTokenRepository, 'findRefreshToken');
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockReturnValueOnce(Promise.resolve(token));
 
     await sut.execute(encryptedToken);
 
@@ -85,5 +94,20 @@ describe('RefreshJwtTokenService', () => {
       });
 
     await expect(sut.execute(encryptedToken)).rejects.toThrow();
+  });
+
+  it('should throw UnauthorizedException if Token not found', async () => {
+    const encryptedToken = factories.faker.random.alphaNumeric(32);
+    const uuid = factories.faker.random.uuid();
+
+    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
+
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockReturnValueOnce(Promise.resolve(undefined));
+
+    await expect(sut.execute(encryptedToken)).rejects.toThrowError(
+      UnauthorizedException
+    );
   });
 });
