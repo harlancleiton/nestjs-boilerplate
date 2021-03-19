@@ -187,4 +187,22 @@ describe('RefreshJwtTokenService', () => {
 
     expect(removeTokenRepository.remove).toBeCalledWith(token);
   });
+
+  it('should throw if RemoveTokenRepository throws', async () => {
+    const encryptedToken = factories.faker.random.alphaNumeric(32);
+    const uuid = factories.faker.random.uuid();
+    const token = factories.tokenModel.build();
+
+    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
+
+    jest
+      .spyOn(findRefreshTokenRepository, 'findRefreshToken')
+      .mockReturnValueOnce(Promise.resolve(token));
+
+    jest.spyOn(removeTokenRepository, 'remove').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    await expect(sut.execute(encryptedToken)).rejects.toThrow();
+  });
 });
