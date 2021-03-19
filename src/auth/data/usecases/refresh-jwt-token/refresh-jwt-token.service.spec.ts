@@ -106,9 +106,6 @@ describe('RefreshJwtTokenService', () => {
 
   it('should throw if FindRefreshTokenRepository throws', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
-    const uuid = factories.faker.random.uuid();
-
-    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
 
     jest
       .spyOn(findRefreshTokenRepository, 'findRefreshToken')
@@ -121,9 +118,6 @@ describe('RefreshJwtTokenService', () => {
 
   it('should throw UnauthorizedException if Token not found', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
-    const uuid = factories.faker.random.uuid();
-
-    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
 
     jest
       .spyOn(findRefreshTokenRepository, 'findRefreshToken')
@@ -136,10 +130,7 @@ describe('RefreshJwtTokenService', () => {
 
   it('should be call GenerateJwtToken with correct values', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
-    const uuid = factories.faker.random.uuid();
     const token = factories.tokenModel.build();
-
-    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
 
     jest
       .spyOn(findRefreshTokenRepository, 'findRefreshToken')
@@ -154,10 +145,7 @@ describe('RefreshJwtTokenService', () => {
 
   it('should throw if GenerateJwtToken throws', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
-    const uuid = factories.faker.random.uuid();
     const token = factories.tokenModel.build();
-
-    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
 
     jest
       .spyOn(findRefreshTokenRepository, 'findRefreshToken')
@@ -172,10 +160,7 @@ describe('RefreshJwtTokenService', () => {
 
   it('should be call RemoveTokenRepository with correct value', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
-    const uuid = factories.faker.random.uuid();
     const token = factories.tokenModel.build();
-
-    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
 
     jest
       .spyOn(findRefreshTokenRepository, 'findRefreshToken')
@@ -190,10 +175,7 @@ describe('RefreshJwtTokenService', () => {
 
   it('should throw if RemoveTokenRepository throws', async () => {
     const encryptedToken = factories.faker.random.alphaNumeric(32);
-    const uuid = factories.faker.random.uuid();
     const token = factories.tokenModel.build();
-
-    jest.spyOn(encrypter, 'decrypt').mockReturnValueOnce(uuid);
 
     jest
       .spyOn(findRefreshTokenRepository, 'findRefreshToken')
