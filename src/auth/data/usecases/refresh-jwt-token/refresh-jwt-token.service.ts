@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import {
   AuthRepositoriesConstants,
@@ -21,7 +21,11 @@ export class RefreshJwtTokenService implements RefreshJwtToken {
 
   async execute(encryptedToken: string): Promise<LoginModel> {
     const uuid = this.encrypter.decrypt(encryptedToken);
-    await this.findRefreshTokenRepository.findRefreshToken(uuid);
+    const refreshToken = await this.findRefreshTokenRepository.findRefreshToken(
+      uuid
+    );
+
+    if (!refreshToken) throw new UnauthorizedException();
 
     return undefined;
   }
