@@ -55,14 +55,17 @@ import {
       useClass: GenerateJwtTokenService
     },
     {
+      provide: AuthUseCasesConstants.REFRESH_JWT_TOKEN,
+      useClass: RefreshJwtTokenService
+    },
+    {
       provide: AuthUseCasesConstants.VALIDATE_LOGIN,
       useClass: ValidateLoginService
     },
     {
       provide: AuthRepositoriesConstants.CREATE_TOKEN_REPOSITORY,
       useClass: TokensRepository
-    },
-    RefreshJwtTokenService
+    }
   ]
 })
 export class AuthModule {}
