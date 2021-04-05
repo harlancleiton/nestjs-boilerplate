@@ -16,6 +16,7 @@ import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
 import { TokenEntity, TokensRepository } from './infra';
 import {
   LoginController,
+  RefreshTokenController,
   RegisterController,
   JwtAuthGuard,
   LocalAuthGuard,
@@ -37,7 +38,7 @@ import {
 
     UsersModule
   ],
-  controllers: [LoginController, RegisterController],
+  controllers: [LoginController, RegisterController, RefreshTokenController],
   providers: [
     JwtAuthGuard,
     LocalAuthGuard,
