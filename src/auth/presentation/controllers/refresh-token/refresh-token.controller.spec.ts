@@ -39,4 +39,14 @@ describe('RefreshTokenController', () => {
 
     expect(refreshJwtToken.execute).toBeCalledWith(refreshToken);
   });
+
+  it('should throw if RefreshJwtToken throws', async () => {
+    const refreshToken = factories.faker.random.alphaNumeric(32);
+
+    jest.spyOn(refreshJwtToken, 'execute').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+
+    await expect(sut.store({ refreshToken })).rejects.toThrow();
+  });
 });
