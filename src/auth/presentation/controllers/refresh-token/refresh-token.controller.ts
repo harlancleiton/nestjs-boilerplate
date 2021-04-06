@@ -1,5 +1,7 @@
 import { Controller, Inject } from '@nestjs/common';
 
+import { plainToClass } from 'class-transformer';
+
 import { AuthUseCasesConstants, RefreshJwtToken } from '~/auth/domain';
 
 import { LoginResponseDto, RequestRefreshTokenDto } from '../../dtos';
@@ -14,9 +16,12 @@ export class RefreshTokenController {
   async store(
     requestRefreshToken: RequestRefreshTokenDto
   ): Promise<LoginResponseDto> {
-    const { refreshToken } = requestRefreshToken;
-    await this.refreshJwtToken.execute(refreshToken);
+    const { refreshToken: refreshTokenFromRequest } = requestRefreshToken;
 
-    return null;
+    const { refreshToken, token, user } = await this.refreshJwtToken.execute(
+      refreshTokenFromRequest
+    );
+
+    return plainToClass(LoginResponseDto, { refreshToken, token, user });
   }
 }
