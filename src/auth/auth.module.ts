@@ -16,6 +16,7 @@ import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
 import { TokenEntity, TokensRepository } from './infra';
 import {
   LoginController,
+  RefreshTokenController,
   RegisterController,
   JwtAuthGuard,
   LocalAuthGuard,
@@ -37,7 +38,7 @@ import {
 
     UsersModule
   ],
-  controllers: [LoginController, RegisterController],
+  controllers: [LoginController, RegisterController, RefreshTokenController],
   providers: [
     JwtAuthGuard,
     LocalAuthGuard,
@@ -54,6 +55,10 @@ import {
       useClass: GenerateJwtTokenService
     },
     {
+      provide: AuthUseCasesConstants.REFRESH_JWT_TOKEN,
+      useClass: RefreshJwtTokenService
+    },
+    {
       provide: AuthUseCasesConstants.VALIDATE_LOGIN,
       useClass: ValidateLoginService
     },
@@ -61,7 +66,14 @@ import {
       provide: AuthRepositoriesConstants.CREATE_TOKEN_REPOSITORY,
       useClass: TokensRepository
     },
-    RefreshJwtTokenService
+    {
+      provide: AuthRepositoriesConstants.FIND_REFRESH_TOKEN_REPOSITORY,
+      useClass: TokensRepository
+    },
+    {
+      provide: AuthRepositoriesConstants.REMOVE_TOKEN_REPOSITORY,
+      useClass: TokensRepository
+    }
   ]
 })
 export class AuthModule {}

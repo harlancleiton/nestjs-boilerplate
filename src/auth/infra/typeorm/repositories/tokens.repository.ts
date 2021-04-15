@@ -3,13 +3,22 @@ import { InjectConnection } from '@nestjs/typeorm';
 
 import { Connection, Repository } from 'typeorm';
 
-import { CreateTokenRepository } from '~/auth/data/repositories';
+import {
+  CreateTokenRepository,
+  FindRefreshTokenRepository,
+  RemoveTokenRepository
+} from '~/auth/data/repositories';
+import { TokenModel, TokenType } from '~/auth/domain';
 import { DeepPartial } from '~/shared/domain';
 
 import { TokenEntity } from '../entities';
 
 @Injectable()
-export class TokensRepository implements CreateTokenRepository {
+export class TokensRepository
+  implements
+    CreateTokenRepository,
+    FindRefreshTokenRepository,
+    RemoveTokenRepository {
   private readonly typeormRepository: Repository<TokenEntity>;
 
   constructor(@InjectConnection() connection: Connection) {
@@ -21,5 +30,25 @@ export class TokensRepository implements CreateTokenRepository {
     await this.typeormRepository.save(token);
 
     return token;
+  }
+
+  async findRefreshToken(token: string): Promise<TokenModel | undefined> {
+    const refreshToken = await this.typeormRepository.findOne({
+      token,
+      type: TokenType.JWT_REFRESH_TOKEN
+    });
+
+    return refreshToken;
+  }
+
+  async remove(_token: TokenModel): Promise<TokenModel | undefined> {
+    const token = await this.typeormRepository.findOne({
+      where: { id: _token.id }
+    });
+
+    if (!token) return token;
+
+    const deletedToken = await this.typeormRepository.remove(token);
+    return deletedToken;
   }
 }
