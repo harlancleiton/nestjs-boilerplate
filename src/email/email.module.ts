@@ -30,7 +30,7 @@ import { MailerServiceAdapter } from './infra';
         },
         template: {
           dir: path.resolve(
-            process.env.PWD,
+            process.cwd(),
             'src',
             'email',
             'infra',
@@ -46,7 +46,7 @@ import { MailerServiceAdapter } from './infra';
         options: {
           partials: {
             dir: path.resolve(
-              process.env.PWD,
+              process.cwd(),
               'src',
               'email',
               'infra',
