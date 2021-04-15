@@ -65,6 +65,14 @@ import {
     {
       provide: AuthRepositoriesConstants.CREATE_TOKEN_REPOSITORY,
       useClass: TokensRepository
+    },
+    {
+      provide: AuthRepositoriesConstants.FIND_REFRESH_TOKEN_REPOSITORY,
+      useClass: TokensRepository
+    },
+    {
+      provide: AuthRepositoriesConstants.REMOVE_TOKEN_REPOSITORY,
+      useClass: TokensRepository
     }
   ]
 })
