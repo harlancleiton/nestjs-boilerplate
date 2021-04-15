@@ -26,7 +26,7 @@
     "test:e2e": "jest --config ./test/jest.config-e2e.js --runInBand",
     "release": "standard-version",
     "prepare": "husky install",
-    "typeorm": "ts-node-dev --no-notify --clear -r tsconfig-paths/register node_modules/.bin/typeorm"
+    "typeorm": "ts-node-dev --no-notify --clear -r tsconfig-paths/register node_modules/typeorm/cli"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.5.1",
