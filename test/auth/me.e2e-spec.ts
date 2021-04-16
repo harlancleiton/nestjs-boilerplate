@@ -3,13 +3,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import * as request from 'supertest';
 
+import { AppModule } from '~/app.module';
 import { AuthUseCasesConstants, GenerateJwtToken } from '~/auth/domain';
 import { TypeOrmHelper } from '~/shared/infra';
 import { CreateUserRepository } from '~/users/data';
 import { UsersRepositoryConstants } from '~/users/domain';
 
-import { AppModule } from './../src/app.module';
-import { factories } from './factories';
+import { factories } from '../factories';
 
 describe('MeController (e2e)', () => {
   let app: INestApplication;

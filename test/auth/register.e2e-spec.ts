@@ -3,12 +3,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import * as request from 'supertest';
 
+import { AppModule } from '~/app.module';
 import { TypeOrmHelper } from '~/shared/infra/database';
 import { CreateUserRepository } from '~/users/data';
 import { UsersRepositoryConstants } from '~/users/domain';
 
-import { AppModule } from './../src/app.module';
-import { factories } from './factories';
+import { factories } from '../factories';
 
 describe('Auth/RegisterController (e2e)', () => {
   let app: INestApplication;
