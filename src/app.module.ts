@@ -5,10 +5,10 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from '~/auth';
+import { EmailModule } from '~/email';
+import { NotificationsModule } from '~/notifications';
 import { SharedModule } from '~/shared';
 import { UsersModule } from '~/users';
-
-import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -28,7 +28,8 @@ import { EmailModule } from './email/email.module';
     AuthModule,
     SharedModule,
     UsersModule,
-    EmailModule
+    EmailModule,
+    NotificationsModule
   ]
 })
 export class AppModule {}
