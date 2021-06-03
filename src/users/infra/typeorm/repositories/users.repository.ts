@@ -14,7 +14,7 @@ import { UserModel } from '~/users/domain';
 import { UserEntity } from '../entities';
 
 @Injectable()
-export class UsersRepository
+export class TypeORMUsersRepository
   implements
     CreateUserRepository,
     FindUserByEmailRepository,

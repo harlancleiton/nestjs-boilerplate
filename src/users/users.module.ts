@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CreateUserService } from './data';
 import { UsersRepositoryConstants, UsersUseCasesConstants } from './domain';
-import { UserEntity, UsersRepository } from './infra';
+import { UserEntity, TypeORMUsersRepository } from './infra';
 import { MeController } from './presentation';
 
 @Module({
@@ -16,15 +16,15 @@ import { MeController } from './presentation';
     },
     {
       provide: UsersRepositoryConstants.CREATE_USER_REPOSITORY,
-      useClass: UsersRepository
+      useClass: TypeORMUsersRepository
     },
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
-      useClass: UsersRepository
+      useClass: TypeORMUsersRepository
     },
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_ID_REPOSITORY,
-      useClass: UsersRepository
+      useClass: TypeORMUsersRepository
     }
   ],
   exports: [
@@ -34,11 +34,11 @@ import { MeController } from './presentation';
     },
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_EMAIL_REPOSITORY,
-      useClass: UsersRepository
+      useClass: TypeORMUsersRepository
     },
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_ID_REPOSITORY,
-      useClass: UsersRepository
+      useClass: TypeORMUsersRepository
     }
   ]
 })
