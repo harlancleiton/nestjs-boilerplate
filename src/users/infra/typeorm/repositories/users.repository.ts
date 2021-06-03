@@ -9,7 +9,6 @@ import {
   FindUserByEmailRepository,
   FindUserByIdRepository
 } from '~/users/data';
-import { UserModel } from '~/users/domain';
 
 import { UserEntity } from '../entities';
 
@@ -31,13 +30,13 @@ export class TypeORMUsersRepository
     return user;
   }
 
-  async findByEmail(email: string): Promise<UserModel> {
+  async findByEmail(email: string): Promise<UserEntity | undefined> {
     const user = await this.typeormRepository.findOne({ where: { email } });
 
     return user;
   }
 
-  async findById(id: string): Promise<UserModel> {
+  async findById(id: string): Promise<UserEntity | undefined> {
     const user = await this.typeormRepository.findOne({ where: { id } });
 
     return user;
