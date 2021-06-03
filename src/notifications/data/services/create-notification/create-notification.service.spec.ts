@@ -1,6 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { NotificationRepositoriesConstants } from '~/notifications/domain';
+import {
+  NotificationCreatedEvent,
+  NotificationRepositoriesConstants,
+  NotificationsEventsContants
+} from '~/notifications/domain';
+import { Event } from '~/shared/data';
+import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 
 import { CreateNotificationRepository } from '../../repositories';
@@ -8,9 +14,11 @@ import { CreateNotificationService } from './create-notification.service';
 
 describe('CreateNotificationService', () => {
   const mockCreateNotificationRepository = () => ({ create: jest.fn() });
+  const eventMock = () => ({ emit: jest.fn() });
 
   let sut: CreateNotificationService;
   let createNotificationRepository: CreateNotificationRepository;
+  let event: Event;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,7 +28,8 @@ describe('CreateNotificationService', () => {
           provide:
             NotificationRepositoriesConstants.CREATE_NOTIFICATION_REPOSITORY,
           useFactory: mockCreateNotificationRepository
-        }
+        },
+        { provide: AdaptersConstants.EVENT, useFactory: eventMock }
       ]
     }).compile();
 
@@ -28,6 +37,7 @@ describe('CreateNotificationService', () => {
     createNotificationRepository = module.get(
       NotificationRepositoriesConstants.CREATE_NOTIFICATION_REPOSITORY
     );
+    event = module.get(AdaptersConstants.EVENT);
   });
 
   it('should be defined', () => {
@@ -61,5 +71,24 @@ describe('CreateNotificationService', () => {
       });
 
     await expect(sut.execute(createNotification)).rejects.toThrow();
+  });
+
+  it('should be emit event when create notification', async () => {
+    const createNotificationModel = factories.createNotification.build();
+
+    const notificationModel = factories.notificationModel.build();
+
+    jest
+      .spyOn(createNotificationRepository, 'create')
+      .mockReturnValueOnce(Promise.resolve(notificationModel));
+
+    jest.spyOn(event, 'emit');
+
+    await sut.execute(createNotificationModel);
+
+    expect(event.emit).toBeCalledWith(
+      NotificationsEventsContants.NOTIFICATION_CREATED,
+      new NotificationCreatedEvent({ notification: notificationModel })
+    );
   });
 });
