@@ -4,8 +4,12 @@ import {
   CreateNotification,
   NotificationRepositoriesConstants,
   CreateNotificationModel,
-  NotificationModel
+  NotificationModel,
+  NotificationsEventsContants,
+  NotificationCreatedEvent
 } from '~/notifications/domain';
+import { Event } from '~/shared/data';
+import { AdaptersConstants } from '~/shared/domain';
 
 import { CreateNotificationRepository } from '../../repositories';
 
@@ -13,7 +17,9 @@ import { CreateNotificationRepository } from '../../repositories';
 export class CreateNotificationService implements CreateNotification {
   constructor(
     @Inject(NotificationRepositoriesConstants.CREATE_NOTIFICATION_REPOSITORY)
-    private readonly createNotificationRepository: CreateNotificationRepository
+    private readonly createNotificationRepository: CreateNotificationRepository,
+    @Inject(AdaptersConstants.EVENT)
+    private readonly event: Event
   ) {}
 
   async execute({
@@ -23,13 +29,18 @@ export class CreateNotificationService implements CreateNotification {
     type,
     data
   }: CreateNotificationModel): Promise<NotificationModel> {
-    await this.createNotificationRepository.create({
+    const notification = await this.createNotificationRepository.create({
       title,
       content,
       user,
       type,
       data
     });
+
+    this.event.emit(
+      NotificationsEventsContants.NOTIFICATION_CREATED,
+      new NotificationCreatedEvent({ notification })
+    );
 
     return null;
   }

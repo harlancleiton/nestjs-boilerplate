@@ -17,7 +17,7 @@ export interface NotificationModel<TData = any> {
 
   status: NotificationStatus;
 
-  data: TData;
+  data?: TData;
 
   createdAt: Date;
 
