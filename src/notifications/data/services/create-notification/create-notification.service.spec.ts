@@ -91,4 +91,18 @@ describe('CreateNotificationService', () => {
       new NotificationCreatedEvent({ notification: notificationModel })
     );
   });
+
+  it('should return a new notification', async () => {
+    const createNotificationModel = factories.createNotification.build();
+
+    const notificationModel = factories.notificationModel.build();
+
+    jest
+      .spyOn(createNotificationRepository, 'create')
+      .mockReturnValueOnce(Promise.resolve(notificationModel));
+
+    const notification = await sut.execute(createNotificationModel);
+
+    expect(notification).toEqual(notificationModel);
+  });
 });
