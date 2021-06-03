@@ -11,7 +11,7 @@ import { UserCreatedListener } from './user-created.listener';
 describe('UserCreatedListener', () => {
   const queueMock = () => ({ add: jest.fn() });
 
-  let userCreatedListener: UserCreatedListener;
+  let sut: UserCreatedListener;
   let queue: Queue<SendMailConsumerData>;
 
   beforeEach(async () => {
@@ -25,12 +25,12 @@ describe('UserCreatedListener', () => {
       ]
     }).compile();
 
-    userCreatedListener = module.get(UserCreatedListener);
+    sut = module.get(UserCreatedListener);
     queue = module.get(getQueueToken('SendMail'));
   });
 
   it('should be defined', () => {
-    expect(userCreatedListener).toBeDefined();
+    expect(sut).toBeDefined();
   });
 
   it('should call SendMail with correct values', async () => {
@@ -41,7 +41,7 @@ describe('UserCreatedListener', () => {
       context: { user }
     };
 
-    await userCreatedListener.handleEvent(new UserCreatedEvent({ user }));
+    await sut.handleEvent(new UserCreatedEvent({ user }));
 
     expect(queue.add).toBeCalledWith({ user, options });
   });

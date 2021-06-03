@@ -8,7 +8,7 @@ import { SendMailConsumer } from './send-mail.consumer';
 describe('SendMailConsumer', () => {
   const sendMailMock = () => ({ execute: jest.fn() });
 
-  let sendMailConsumer: SendMailConsumer;
+  let sut: SendMailConsumer;
   let sendMail: SendMail;
 
   beforeEach(async () => {
@@ -19,12 +19,12 @@ describe('SendMailConsumer', () => {
       ]
     }).compile();
 
-    sendMailConsumer = module.get(SendMailConsumer);
+    sut = module.get(SendMailConsumer);
     sendMail = module.get(EmailUseCasesConstants.SEND_MAIL);
   });
 
   it('should be defined', () => {
-    expect(sendMailConsumer).toBeDefined();
+    expect(sut).toBeDefined();
   });
 
   it('should execute email send', async () => {
@@ -40,7 +40,7 @@ describe('SendMailConsumer', () => {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    await sendMailConsumer.transcode({
+    await sut.transcode({
       data: { user, options: sendMailOptions }
     });
 
