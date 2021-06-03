@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { Connection, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { DeepPartial } from '~/shared/domain';
 import {
@@ -19,11 +19,10 @@ export class TypeORMUsersRepository
     CreateUserRepository,
     FindUserByEmailRepository,
     FindUserByIdRepository {
-  private readonly typeormRepository: Repository<UserEntity>;
-
-  constructor(@InjectConnection() connection: Connection) {
-    this.typeormRepository = connection.getRepository(UserEntity);
-  }
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly typeormRepository: Repository<UserEntity>
+  ) {}
 
   async create(entityLike: DeepPartial<UserEntity>): Promise<UserEntity> {
     const user = this.typeormRepository.create(entityLike);
