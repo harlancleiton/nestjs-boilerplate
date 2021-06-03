@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { Document } from 'mongoose';
-import { validate as isUUID } from 'uuid';
+import * as uuid from 'uuid';
 
 import {
   NotificationModel,
@@ -14,7 +14,7 @@ import { UserModel } from '~/users/domain';
 export class Notification implements NotificationModel {
   id: string;
 
-  @Prop({ required: true, validate: isUUID })
+  @Prop({ required: true, default: uuid.v4 })
   uuid: string;
 
   @Prop({ required: true })
