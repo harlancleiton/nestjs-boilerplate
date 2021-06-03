@@ -50,4 +50,16 @@ describe('CreateNotificationService', () => {
       data
     });
   });
+
+  it('should throw if CreateNotificationRepository throws', async () => {
+    const createNotification = factories.createNotification.build();
+
+    jest
+      .spyOn(createNotificationRepository, 'create')
+      .mockImplementationOnce(async () => {
+        throw new Error();
+      });
+
+    await expect(sut.execute(createNotification)).rejects.toThrow();
+  });
 });
