@@ -186,4 +186,18 @@ describe('CreateUserService', () => {
 
     await expect(sut.execute(createUserModel)).rejects.toThrow();
   });
+
+  it('should return a new user', async () => {
+    const createUserModel = factories.createUserModel.build();
+
+    const userModel = factories.userModel.build();
+
+    jest
+      .spyOn(createUserRepository, 'create')
+      .mockReturnValueOnce(Promise.resolve(userModel));
+
+    const user = await sut.execute(createUserModel);
+
+    expect(user).toEqual(userModel);
+  });
 });
