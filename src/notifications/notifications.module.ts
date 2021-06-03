@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { CreateNotificationService } from './data';
+import { CreateNotificationService, UserCreatedListener } from './data';
 import {
   NotificationRepositoriesConstants,
   NotificationsUseCasesConstants
@@ -26,7 +26,8 @@ import {
     {
       provide: NotificationRepositoriesConstants.CREATE_NOTIFICATION_REPOSITORY,
       useClass: MongooseNotificationRepository
-    }
+    },
+    UserCreatedListener
   ]
 })
 export class NotificationsModule {}
