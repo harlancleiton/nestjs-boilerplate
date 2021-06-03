@@ -42,6 +42,6 @@ export class CreateNotificationService implements CreateNotification {
       new NotificationCreatedEvent({ notification })
     );
 
-    return null;
+    return notification;
   }
 }
