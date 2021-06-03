@@ -4,7 +4,8 @@ import {
   AfterLoad,
   Column,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  AfterInsert
 } from 'typeorm';
 
 import { UserModel } from '~/users/domain';
@@ -17,6 +18,7 @@ export class UserEntity implements UserModel {
   uuid: string;
 
   @AfterLoad()
+  @AfterInsert()
   generateUUID() {
     this.uuid = this.id;
   }
