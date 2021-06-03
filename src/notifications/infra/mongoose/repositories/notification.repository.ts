@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
 
-import { CreateNotificationRepository } from '~/notifications/data/repositories';
+import { CreateNotificationRepository } from '~/notifications/data';
 import { DeepPartial } from '~/shared/domain';
 
 import { Notification, NotificationDocument } from '../schemas';
