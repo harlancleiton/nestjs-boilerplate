@@ -45,7 +45,7 @@ describe('CreateNotificationService', () => {
   });
 
   it('should call CreateNotificationRepository with correct values', async () => {
-    const createNotification = factories.createNotification.build();
+    const createNotification = factories.createNotificationModel.build();
 
     jest.spyOn(createNotificationRepository, 'create');
 
@@ -62,7 +62,7 @@ describe('CreateNotificationService', () => {
   });
 
   it('should throw if CreateNotificationRepository throws', async () => {
-    const createNotification = factories.createNotification.build();
+    const createNotification = factories.createNotificationModel.build();
 
     jest
       .spyOn(createNotificationRepository, 'create')
@@ -74,7 +74,7 @@ describe('CreateNotificationService', () => {
   });
 
   it('should be emit event when create notification', async () => {
-    const createNotificationModel = factories.createNotification.build();
+    const createNotificationModel = factories.createNotificationModel.build();
 
     const notificationModel = factories.notificationModel.build();
 
@@ -93,7 +93,7 @@ describe('CreateNotificationService', () => {
   });
 
   it('should return a new notification', async () => {
-    const createNotificationModel = factories.createNotification.build();
+    const createNotificationModel = factories.createNotificationModel.build();
 
     const notificationModel = factories.notificationModel.build();
 

@@ -9,7 +9,7 @@ import { userModelFactory } from './userModel.factory';
 
 export const factories = {
   faker,
-  createNotification: createNoficationModelFactory,
+  createNotificationModel: createNoficationModelFactory,
   createUserModel: createUserModelFactory,
   loginModel: loginModelFactory,
   notificationModel: noficationModelFactory,
