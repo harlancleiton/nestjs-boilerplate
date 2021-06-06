@@ -1,5 +1,5 @@
-import { TokenNotificationModel } from '../models';
+import { NotificationModel } from '../models';
 
 export interface SendPushNotification {
-  execute(tokenNotification: TokenNotificationModel): Promise<void>;
+  execute(notification: NotificationModel): Promise<void>;
 }
