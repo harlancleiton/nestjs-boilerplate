@@ -52,4 +52,19 @@ describe('SendPushNotificationService', () => {
       findTokenNotificationByUserRepository.findTokenNotificationByUser
     ).toBeCalledWith(user);
   });
+
+  it('should throw if FindTokenNotificationByUserRepository throws', async () => {
+    const notification = factories.notificationModel.build();
+
+    jest
+      .spyOn(
+        findTokenNotificationByUserRepository,
+        'findTokenNotificationByUser'
+      )
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    await expect(sut.execute(notification)).rejects.toThrow();
+  });
 });
