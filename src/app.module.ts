@@ -1,6 +1,7 @@
 import { BullModule } from '@nestjs/bull';
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -35,6 +36,9 @@ import { UsersModule } from '~/users';
     UsersModule,
     EmailModule,
     NotificationsModule
+  ],
+  providers: [
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }
   ]
 })
 export class AppModule {}
