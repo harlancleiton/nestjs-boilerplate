@@ -19,6 +19,7 @@ import { BCryptAdapter, EncrypterAdapter, EventEmitterAdapter } from './infra';
           .default('development'),
         PORT: Joi.number().required(),
         APP_KEY: Joi.string().length(32).required(),
+        FRONT_END_URL: Joi.string().uri(),
         JWT_EXPIRES: Joi.string().default('1d'),
         ENCRYPTER_ALGORITHM: Joi.string().default('aes-256-cbc'),
         SALT_ROUNDS: Joi.number().default(10),

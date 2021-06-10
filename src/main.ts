@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
 import { router as bullBoardRouter, BullAdapter, setQueues } from 'bull-board';
+import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
 
@@ -23,7 +24,13 @@ function addBullBoard(app: INestApplication, endpoint: string) {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.use(helmet());
+
   const configService = app.get(ConfigService);
+
+  const frontEndUrl = configService.get('FRONT_END_URL');
+  const corsOrigin = [frontEndUrl];
+  app.enableCors({ origin: corsOrigin });
 
   function transformError(error: ValidationError) {
     return {
