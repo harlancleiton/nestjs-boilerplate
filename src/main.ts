@@ -1,25 +1,18 @@
 import { getQueueToken } from '@nestjs/bull';
 import {
   BadRequestException,
-  INestApplication,
   ValidationError,
   ValidationPipe
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
-import { router as bullBoardRouter, BullAdapter, setQueues } from 'bull-board';
+import { createBullBoard } from '@bull-board/api';
+import { BullAdapter } from '@bull-board/api/bullAdapter';
+import { ExpressAdapter } from '@bull-board/express';
 import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
-
-function addBullBoard(app: INestApplication, endpoint: string) {
-  app.use(endpoint, bullBoardRouter);
-
-  const sendMailQueue = app.get(getQueueToken('SendMail'));
-
-  setQueues([new BullAdapter(sendMailQueue)]);
-}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -55,9 +48,18 @@ async function bootstrap() {
   const bullBoardEnable = configService.get('BULL_BOARD_ENABLE');
 
   if (bullBoardEnable) {
-    const endpoint = configService.get('BULL_BOARD_ENDPOINT');
+    const sendMailQueue = app.get(getQueueToken('SendMail'));
 
-    addBullBoard(app, endpoint);
+    const bullBoardEndpoint = configService.get('BULL_BOARD_ENDPOINT');
+    const bullBoardServerAdapter = new ExpressAdapter();
+
+    createBullBoard({
+      queues: [new BullAdapter(sendMailQueue)],
+      serverAdapter: bullBoardServerAdapter
+    });
+
+    bullBoardServerAdapter.setBasePath(bullBoardEndpoint);
+    app.use(bullBoardEndpoint, bullBoardServerAdapter.getRouter());
   }
 
   const port = Number(configService.get('PORT'));
