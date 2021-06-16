@@ -17,9 +17,16 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.use(helmet());
-
   const configService = app.get(ConfigService);
+
+  const environment = configService.get('NODE_ENV');
+  const isProduction = environment === 'production';
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: isProduction ? undefined : false
+    })
+  );
 
   const frontEndUrl = configService.get('FRONT_END_URL');
   const corsOrigin = [frontEndUrl];
