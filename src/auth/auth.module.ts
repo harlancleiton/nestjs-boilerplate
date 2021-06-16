@@ -16,12 +16,13 @@ import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
 import { TokenEntity, TokensRepository } from './infra';
 import {
   LoginController,
-  RefreshTokenController,
   RegisterController,
+  RefreshTokenController,
+  RegisterResolver,
   JwtAuthGuard,
   LocalAuthGuard,
-  LocalStrategy,
-  JwtStrategy
+  JwtStrategy,
+  LocalStrategy
 } from './presentation';
 
 @Module({
@@ -40,6 +41,8 @@ import {
   ],
   controllers: [LoginController, RegisterController, RefreshTokenController],
   providers: [
+    RegisterResolver,
+
     JwtAuthGuard,
     LocalAuthGuard,
 

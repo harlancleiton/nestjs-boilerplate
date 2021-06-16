@@ -27,10 +27,10 @@ import {
       provide: NotificationsUseCasesConstants.CREATE_NOTIFICATION,
       useClass: CreateNotificationService
     },
-    {
-      provide: NotificationsUseCasesConstants.SEND_PUSH_NOTIFICATION,
-      useClass: SendPushNotificationService
-    },
+    // {
+    //   provide: NotificationsUseCasesConstants.SEND_PUSH_NOTIFICATION,
+    //   useClass: SendPushNotificationService
+    // },
     {
       provide: NotificationRepositoriesConstants.CREATE_NOTIFICATION_REPOSITORY,
       useClass: MongooseNotificationRepository
