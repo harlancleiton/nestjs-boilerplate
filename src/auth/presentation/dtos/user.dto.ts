@@ -17,9 +17,7 @@ export class UserDto implements UserModel {
   lastname: string;
 
   @Expose()
-  get fullname(): string {
-    return `${this.firstname} ${this.lastname}`;
-  }
+  fullname: string;
 
   @Expose()
   email: string;

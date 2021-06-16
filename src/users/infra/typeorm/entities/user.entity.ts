@@ -29,6 +29,14 @@ export class UserEntity implements UserModel {
   @Column({ length: 50 })
   lastname: string;
 
+  fullname: string;
+
+  @AfterLoad()
+  @AfterInsert()
+  generateFullname() {
+    this.fullname = `${this.firstname} ${this.lastname}`;
+  }
+
   @Column({ length: 80, unique: true })
   email: string;
 

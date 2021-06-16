@@ -7,6 +7,8 @@ export interface UserModel {
 
   lastname: string;
 
+  fullname: string;
+
   email: string;
 
   password: string;
