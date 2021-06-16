@@ -19,6 +19,7 @@ import {
   RegisterController,
   RefreshTokenController,
   RegisterResolver,
+  GqlJwtAuthGuard,
   JwtAuthGuard,
   LocalAuthGuard,
   JwtStrategy,
@@ -43,6 +44,7 @@ import {
   providers: [
     RegisterResolver,
 
+    GqlJwtAuthGuard,
     JwtAuthGuard,
     LocalAuthGuard,
 
