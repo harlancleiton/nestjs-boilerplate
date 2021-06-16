@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import { UsersUseCasesConstants, CreateUser } from '~/users/domain';
 
@@ -19,10 +19,5 @@ export class RegisterResolver {
     const user = await this.createUser.execute(createUser);
 
     return user;
-  }
-
-  @Query(() => String)
-  sayHello(): string {
-    return 'Hello World!';
   }
 }
