@@ -13,6 +13,8 @@ import { NotificationsModule } from '~/notifications';
 import { SharedModule } from '~/shared';
 import { UsersModule } from '~/users';
 
+import { BullConfigService } from './config/services/bull-config.service';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({ keepConnectionAlive: true }),
@@ -20,15 +22,7 @@ import { UsersModule } from '~/users';
       useClass: MongooseConfigService
     }),
     BullModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        redis: {
-          host: configService.get('REDIS_HOST'),
-          password: configService.get('REDIS_PASSWORD'),
-          port: Number(configService.get('REDIS_PORT')),
-          db: Number(configService.get('REDIS_DB'))
-        }
-      })
+      useClass: BullConfigService
     }),
     EventEmitterModule.forRoot(),
     AuthModule,
