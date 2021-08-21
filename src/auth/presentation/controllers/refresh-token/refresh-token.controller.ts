@@ -18,12 +18,10 @@ export class RefreshTokenController {
     @Body()
     requestRefreshToken: RequestRefreshTokenDto
   ): Promise<LoginResponseDto> {
-    const { refreshToken: refreshTokenFromRequest } = requestRefreshToken;
+    const { refreshToken } = requestRefreshToken;
 
-    const { refreshToken, token, user } = await this.refreshJwtToken.execute(
-      refreshTokenFromRequest
-    );
+    const login = await this.refreshJwtToken.execute(refreshToken);
 
-    return plainToClass(LoginResponseDto, { refreshToken, token, user });
+    return plainToClass(LoginResponseDto, login);
   }
 }

@@ -46,12 +46,12 @@ describe('MeController (e2e)', () => {
     const user = factories.userModel.build();
     await createUserRepository.create(user);
 
-    const { accessToken: token } = await generateJwtToken.execute(user);
+    const { accessToken } = await generateJwtToken.execute(user);
 
     return request
       .agent(app.getHttpServer())
       .get('/users/me')
-      .auth(token, { type: 'bearer' })
+      .auth(accessToken, { type: 'bearer' })
       .expect(HttpStatus.OK)
       .expect(({ body }) => {
         expect(body).toMatchObject({
@@ -67,12 +67,12 @@ describe('MeController (e2e)', () => {
     const user = factories.userModel.build();
     await createUserRepository.create(user);
 
-    const { accessToken: token } = await generateJwtToken.execute(user);
+    const { accessToken } = await generateJwtToken.execute(user);
 
     return request
       .agent(app.getHttpServer())
       .get('/me')
-      .auth(token, { type: 'bearer' })
+      .auth(accessToken, { type: 'bearer' })
       .expect(HttpStatus.OK)
       .expect(({ body }) => {
         expect(body).toBeDefined();

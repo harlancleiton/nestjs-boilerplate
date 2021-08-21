@@ -129,12 +129,12 @@ describe('GenerateJwtTokenService', () => {
   it('should return a token and the user who logged in', async () => {
     const userModel = factories.userModel.build();
     const tokenModel = factories.tokenModel.build();
-    const token = factories.faker.random.alphaNumeric(32);
+    const accessToken = factories.faker.random.alphaNumeric(32);
     const refreshTokenEncoded = factories.faker.random.alphaNumeric(64);
 
     jest
       .spyOn(jwtService, 'signAsync')
-      .mockReturnValueOnce(Promise.resolve(token));
+      .mockReturnValueOnce(Promise.resolve(accessToken));
     jest
       .spyOn(createTokenRepository, 'create')
       .mockReturnValueOnce(Promise.resolve(tokenModel));
@@ -144,7 +144,7 @@ describe('GenerateJwtTokenService', () => {
 
     expect(login).toBeDefined();
     expect(login).toMatchObject({
-      token: token,
+      accessToken,
       user: userModel,
       refreshToken: refreshTokenEncoded
     });

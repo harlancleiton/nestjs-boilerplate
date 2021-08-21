@@ -26,7 +26,7 @@ export class GenerateJwtTokenService implements GenerateJwtToken {
   ) {}
 
   async execute(user: UserModel): Promise<LoginModel> {
-    const token = await this.jwtService.signAsync({ sub: user.uuid });
+    const accessToken = await this.jwtService.signAsync({ sub: user.uuid });
 
     const refreshToken = await this.createTokenRepository.create({
       user,
@@ -36,6 +36,10 @@ export class GenerateJwtTokenService implements GenerateJwtToken {
 
     const refreshTokenEncrypted = this.encrypter.encrypt(refreshToken.token);
 
-    return { token, refreshToken: refreshTokenEncrypted, user };
+    return {
+      accessToken,
+      refreshToken: refreshTokenEncrypted,
+      user
+    };
   }
 }

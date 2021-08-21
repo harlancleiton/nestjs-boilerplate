@@ -7,7 +7,7 @@ import { UserDto } from './user.dto';
 @Exclude()
 export class LoginResponseDto implements LoginModel {
   @Expose()
-  token: string;
+  accessToken: string;
 
   @Expose()
   refreshToken: string;

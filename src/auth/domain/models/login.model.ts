@@ -1,7 +1,7 @@
 import { UserModel } from '~/users/domain';
 
 export interface LoginModel {
-  token: string;
+  accessToken: string;
 
   refreshToken: string;
 

@@ -66,7 +66,7 @@ describe('LoginController', () => {
 
     expect(login).toBeDefined();
     expect(login).toMatchObject({
-      token: loginModel.token,
+      accessToken: loginModel.accessToken,
       refreshToken: loginModel.refreshToken,
       user: { id: loginModel.user.id }
     });
