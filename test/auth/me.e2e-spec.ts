@@ -46,11 +46,11 @@ describe('MeController (e2e)', () => {
     const user = factories.userModel.build();
     await createUserRepository.create(user);
 
-    const { token } = await generateJwtToken.execute(user);
+    const { accessToken: token } = await generateJwtToken.execute(user);
 
     return request
       .agent(app.getHttpServer())
-      .get('/me')
+      .get('/users/me')
       .auth(token, { type: 'bearer' })
       .expect(HttpStatus.OK)
       .expect(({ body }) => {
@@ -67,7 +67,7 @@ describe('MeController (e2e)', () => {
     const user = factories.userModel.build();
     await createUserRepository.create(user);
 
-    const { token } = await generateJwtToken.execute(user);
+    const { accessToken: token } = await generateJwtToken.execute(user);
 
     return request
       .agent(app.getHttpServer())

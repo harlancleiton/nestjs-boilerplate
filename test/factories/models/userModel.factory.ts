@@ -4,14 +4,19 @@ import { Factory } from 'fishery';
 import { UserModel } from '~/users/domain';
 
 export const userModelFactory = Factory.define<UserModel>(() => {
-  const id = faker.random.uuid();
+  const id = faker.datatype.uuid();
   const uuid = id;
+
+  const firstname = faker.name.firstName();
+  const lastname = faker.name.lastName();
+  const fullname = `${firstname} ${lastname}`;
 
   return {
     id,
     uuid,
-    firstname: faker.name.firstName(),
-    lastname: faker.name.lastName(),
+    firstname,
+    lastname,
+    fullname,
     email: faker.internet.email(),
     password: faker.internet.password(),
     birthdate: faker.date.past(),
