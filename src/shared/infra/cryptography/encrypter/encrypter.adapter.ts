@@ -7,8 +7,8 @@ import { Encrypter } from '~/shared/data';
 
 @Injectable()
 export class EncrypterAdapter implements Encrypter {
-  private readonly algorithm;
-  private readonly appKey;
+  private readonly algorithm: string;
+  private readonly appKey: string;
 
   constructor(configService: ConfigService) {
     this.algorithm = configService.get('ENCRYPTER_ALGORITHM');

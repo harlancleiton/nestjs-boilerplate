@@ -9,6 +9,7 @@ import { UsersModule } from '~/users';
 import {
   FindUserByJwtTokenService,
   GenerateJwtTokenService,
+  RecoverPasswordService,
   RefreshJwtTokenService,
   ValidateLoginService
 } from './data';
@@ -25,6 +26,7 @@ import {
   JwtStrategy,
   LocalStrategy
 } from './presentation';
+import { RecoverPasswordController } from './presentation/controllers/recover-password';
 
 @Module({
   imports: [
@@ -40,7 +42,12 @@ import {
 
     UsersModule
   ],
-  controllers: [LoginController, RegisterController, RefreshTokenController],
+  controllers: [
+    LoginController,
+    RegisterController,
+    RecoverPasswordController,
+    RefreshTokenController
+  ],
   providers: [
     RegisterResolver,
 
@@ -58,6 +65,10 @@ import {
     {
       provide: AuthUseCasesConstants.GENERATE_JWT_TOKEN,
       useClass: GenerateJwtTokenService
+    },
+    {
+      provide: AuthUseCasesConstants.RECOVER_PASSWORD,
+      useClass: RecoverPasswordService
     },
     {
       provide: AuthUseCasesConstants.REFRESH_JWT_TOKEN,

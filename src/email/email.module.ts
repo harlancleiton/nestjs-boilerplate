@@ -8,6 +8,7 @@ import * as path from 'path';
 
 import { SendMailService, UserCreatedListener } from './data';
 import { SendMailConsumer } from './data/consumers';
+import { RecoverPasswordCreatedListener } from './data/listeners/recover-password-created/recover-password-created.listener';
 import { EmailAdaptersConstants, EmailUseCasesConstants } from './domain';
 import { MailerServiceAdapter } from './infra';
 
@@ -65,6 +66,7 @@ import { MailerServiceAdapter } from './infra';
   providers: [
     { provide: EmailAdaptersConstants.MAILER, useClass: MailerServiceAdapter },
     { provide: EmailUseCasesConstants.SEND_MAIL, useClass: SendMailService },
+    RecoverPasswordCreatedListener,
     UserCreatedListener,
     SendMailConsumer
   ],
