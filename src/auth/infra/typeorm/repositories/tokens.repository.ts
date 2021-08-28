@@ -8,6 +8,7 @@ import {
   FindRefreshTokenRepository,
   RemoveTokenRepository
 } from '~/auth/data/repositories';
+import { FindRecoverPasswordTokenRepository } from '~/auth/data/repositories/find-recover-password-token.repository';
 import { TokenModel, TokenType } from '~/auth/domain';
 import { DeepPartial } from '~/shared/domain';
 
@@ -18,7 +19,9 @@ export class TokensRepository
   implements
     CreateTokenRepository,
     FindRefreshTokenRepository,
-    RemoveTokenRepository {
+    FindRecoverPasswordTokenRepository,
+    RemoveTokenRepository
+{
   private readonly typeormRepository: Repository<TokenEntity>;
 
   constructor(@InjectConnection() connection: Connection) {
@@ -39,6 +42,17 @@ export class TokensRepository
     });
 
     return refreshToken;
+  }
+
+  async findRecoverPasswordToken(
+    token: string
+  ): Promise<TokenModel | undefined> {
+    const recoverPasswordToken = await this.typeormRepository.findOne({
+      token,
+      type: TokenType.FORGOT_PASSWORD
+    });
+
+    return recoverPasswordToken;
   }
 
   async remove(_token: TokenModel): Promise<TokenModel | undefined> {

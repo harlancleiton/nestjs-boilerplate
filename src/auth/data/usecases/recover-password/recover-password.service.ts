@@ -34,7 +34,7 @@ export class RecoverPasswordService implements RecoverPassword {
 
     const token = await this.createTokenRepository.create({
       user,
-      type: TokenType.JWT_REFRESH_TOKEN,
+      type: TokenType.FORGOT_PASSWORD,
       token: uuid()
     });
 

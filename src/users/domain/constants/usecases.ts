@@ -1,3 +1,4 @@
 export enum UsersUseCasesConstants {
-  CREATE_USER = 'CreateUser'
+  CREATE_USER = 'CreateUser',
+  UPDATE_USER = 'UpdateUser'
 }

@@ -11,14 +11,17 @@ import {
   GenerateJwtTokenService,
   RecoverPasswordService,
   RefreshJwtTokenService,
+  ResetPasswordService,
   ValidateLoginService
 } from './data';
 import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
 import { TokenEntity, TokensRepository } from './infra';
 import {
   LoginController,
-  RegisterController,
+  RecoverPasswordController,
   RefreshTokenController,
+  RegisterController,
+  ResetPasswordController,
   RegisterResolver,
   GqlJwtAuthGuard,
   JwtAuthGuard,
@@ -26,7 +29,6 @@ import {
   JwtStrategy,
   LocalStrategy
 } from './presentation';
-import { RecoverPasswordController } from './presentation/controllers/recover-password';
 
 @Module({
   imports: [
@@ -44,9 +46,10 @@ import { RecoverPasswordController } from './presentation/controllers/recover-pa
   ],
   controllers: [
     LoginController,
-    RegisterController,
     RecoverPasswordController,
-    RefreshTokenController
+    RefreshTokenController,
+    RegisterController,
+    ResetPasswordController
   ],
   providers: [
     RegisterResolver,
@@ -75,11 +78,19 @@ import { RecoverPasswordController } from './presentation/controllers/recover-pa
       useClass: RefreshJwtTokenService
     },
     {
+      provide: AuthUseCasesConstants.RESET_PASSWORD,
+      useClass: ResetPasswordService
+    },
+    {
       provide: AuthUseCasesConstants.VALIDATE_LOGIN,
       useClass: ValidateLoginService
     },
     {
       provide: AuthRepositoriesConstants.CREATE_TOKEN_REPOSITORY,
+      useClass: TokensRepository
+    },
+    {
+      provide: AuthRepositoriesConstants.FIND_RECOVER_PASSWORD_TOKEN_REPOSITORY,
       useClass: TokensRepository
     },
     {

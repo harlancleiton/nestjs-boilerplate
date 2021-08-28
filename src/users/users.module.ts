@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CreateUserService } from './data';
+import { UpdateUserService } from './data/usecases/update-user/update-user.service';
 import { UsersRepositoryConstants, UsersUseCasesConstants } from './domain';
 import { UserEntity, TypeORMUsersRepository } from './infra';
 import { MeController, MeResolver } from './presentation';
@@ -17,6 +18,10 @@ import { MeController, MeResolver } from './presentation';
       useClass: CreateUserService
     },
     {
+      provide: UsersUseCasesConstants.UPDATE_USER,
+      useClass: UpdateUserService
+    },
+    {
       provide: UsersRepositoryConstants.CREATE_USER_REPOSITORY,
       useClass: TypeORMUsersRepository
     },
@@ -26,6 +31,10 @@ import { MeController, MeResolver } from './presentation';
     },
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_ID_REPOSITORY,
+      useClass: TypeORMUsersRepository
+    },
+    {
+      provide: UsersRepositoryConstants.UPDATE_USER_REPOSITORY,
       useClass: TypeORMUsersRepository
     }
   ],
@@ -41,6 +50,10 @@ import { MeController, MeResolver } from './presentation';
     {
       provide: UsersRepositoryConstants.FIND_USER_BY_ID_REPOSITORY,
       useClass: TypeORMUsersRepository
+    },
+    {
+      provide: UsersUseCasesConstants.UPDATE_USER,
+      useClass: UpdateUserService
     }
   ]
 })

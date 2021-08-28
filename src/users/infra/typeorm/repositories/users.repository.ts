@@ -7,8 +7,10 @@ import { DeepPartial } from '~/shared/domain';
 import {
   CreateUserRepository,
   FindUserByEmailRepository,
-  FindUserByIdRepository
+  FindUserByIdRepository,
+  UpdateUserRepository
 } from '~/users/data';
+import { UserModel } from '~/users/domain';
 
 import { UserEntity } from '../entities';
 
@@ -17,7 +19,9 @@ export class TypeORMUsersRepository
   implements
     CreateUserRepository,
     FindUserByEmailRepository,
-    FindUserByIdRepository {
+    FindUserByIdRepository,
+    UpdateUserRepository
+{
   constructor(
     @InjectRepository(UserEntity)
     private readonly typeormRepository: Repository<UserEntity>
@@ -40,5 +44,15 @@ export class TypeORMUsersRepository
     const user = await this.typeormRepository.findOne({ where: { id } });
 
     return user;
+  }
+
+  update(
+    mergeIntoUser: UserModel,
+    partial: DeepPartial<UserModel>
+  ): Promise<UserModel> {
+    const entity = this.typeormRepository.create(mergeIntoUser);
+    this.typeormRepository.merge(entity, partial);
+
+    return this.typeormRepository.save(entity);
   }
 }
