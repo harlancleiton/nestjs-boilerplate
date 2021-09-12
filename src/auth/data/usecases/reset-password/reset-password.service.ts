@@ -5,11 +5,8 @@ import {
   UnprocessableEntityException
 } from '@nestjs/common';
 
-import {
-  AuthRepositoriesConstants,
-  ResetPassword,
-  ResetPasswordModel
-} from '~/auth/domain';
+import { AuthRepositoriesConstants } from '~/auth/constants';
+import { ResetPassword, ResetPasswordModel } from '~/auth/domain';
 import { Encrypter } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';
 import { UpdateUser, UsersUseCasesConstants } from '~/users/domain';

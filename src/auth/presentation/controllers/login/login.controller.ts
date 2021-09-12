@@ -2,7 +2,8 @@ import { Controller, Inject, Post, UseGuards } from '@nestjs/common';
 
 import { plainToClass } from 'class-transformer';
 
-import { AuthUseCasesConstants, GenerateJwtToken } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { GenerateJwtToken } from '~/auth/domain';
 
 import { User } from '../../decorators';
 import { LoginResponseDto, UserDto } from '../../dtos';

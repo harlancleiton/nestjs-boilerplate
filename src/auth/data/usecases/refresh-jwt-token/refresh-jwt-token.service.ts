@@ -2,11 +2,9 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import {
   AuthRepositoriesConstants,
-  AuthUseCasesConstants,
-  GenerateJwtToken,
-  LoginModel,
-  RefreshJwtToken
-} from '~/auth/domain';
+  AuthUseCasesConstants
+} from '~/auth/constants';
+import { GenerateJwtToken, LoginModel, RefreshJwtToken } from '~/auth/domain';
 import { Encrypter } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';
 

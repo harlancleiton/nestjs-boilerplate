@@ -4,10 +4,9 @@ import { v4 as uuid } from 'uuid';
 
 import {
   AuthEventsContants,
-  AuthRepositoriesConstants,
-  RecoverPassword,
-  UserTokenType
-} from '~/auth/domain';
+  AuthRepositoriesConstants
+} from '~/auth/constants';
+import { RecoverPassword, UserTokenType } from '~/auth/domain';
 import { RecoverPasswordCreatedEvent } from '~/auth/domain/events';
 import { Encrypter, Event } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';

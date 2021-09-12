@@ -7,7 +7,8 @@ import {
   Post
 } from '@nestjs/common';
 
-import { AuthUseCasesConstants, RecoverPassword } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { RecoverPassword } from '~/auth/domain';
 
 import { RecoverPasswordDto } from '../../dtos';
 

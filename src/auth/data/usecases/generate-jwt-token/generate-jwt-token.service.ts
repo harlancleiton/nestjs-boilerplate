@@ -3,12 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 
 import { v4 as uuid } from 'uuid';
 
-import {
-  AuthRepositoriesConstants,
-  GenerateJwtToken,
-  LoginModel,
-  UserTokenType
-} from '~/auth/domain';
+import { AuthRepositoriesConstants } from '~/auth/constants';
+import { GenerateJwtToken, LoginModel, UserTokenType } from '~/auth/domain';
 import { Encrypter } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';
 import { UserModel } from '~/users/domain';

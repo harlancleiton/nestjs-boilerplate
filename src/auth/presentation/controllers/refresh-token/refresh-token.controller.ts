@@ -2,7 +2,8 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 
 import { plainToClass } from 'class-transformer';
 
-import { AuthUseCasesConstants, RefreshJwtToken } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { RefreshJwtToken } from '~/auth/domain';
 
 import { LoginResponseDto, RequestRefreshTokenDto } from '../../dtos';
 

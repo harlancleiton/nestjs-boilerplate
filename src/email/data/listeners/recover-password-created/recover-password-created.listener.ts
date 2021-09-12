@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OnEvent } from '@nestjs/event-emitter';
 
-import { AuthEventsContants } from '~/auth/domain';
+import { AuthEventsContants } from '~/auth/constants';
 import { RecoverPasswordCreatedEvent } from '~/auth/domain/events';
 import { Queue } from '~/shared/data';
 

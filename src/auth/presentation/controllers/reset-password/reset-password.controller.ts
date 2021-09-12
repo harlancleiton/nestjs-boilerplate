@@ -1,7 +1,8 @@
 import { Inject } from '@nestjs/common';
 import { Body, Controller, HttpCode, HttpStatus, Put } from '@nestjs/common';
 
-import { AuthUseCasesConstants, ResetPassword } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { ResetPassword } from '~/auth/domain';
 
 import { ResetPasswordDto } from '../../dtos';
 

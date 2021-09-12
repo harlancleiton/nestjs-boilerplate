@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersModule } from '~/users';
 
+import { AuthRepositoriesConstants, AuthUseCasesConstants } from './constants';
 import {
   FindUserByJwtTokenService,
   GenerateJwtTokenService,
@@ -14,7 +15,6 @@ import {
   ResetPasswordService,
   ValidateLoginService
 } from './data';
-import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
 import { UserTokenEntity, TokensRepository } from './infra';
 import {
   LoginController,

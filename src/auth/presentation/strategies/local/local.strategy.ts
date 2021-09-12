@@ -4,7 +4,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { plainToClass } from 'class-transformer';
 import { Strategy } from 'passport-local';
 
-import { AuthUseCasesConstants, ValidateLogin } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { ValidateLogin } from '~/auth/domain';
 
 import { UserDto } from '../../dtos';
 

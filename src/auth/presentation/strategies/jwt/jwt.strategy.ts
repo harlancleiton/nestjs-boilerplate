@@ -5,7 +5,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { plainToClass } from 'class-transformer';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import { AuthUseCasesConstants, FindUserById } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { FindUserById } from '~/auth/domain';
 
 import { UserDto } from '../../dtos';
 
