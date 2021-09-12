@@ -62,7 +62,7 @@ import {
     LocalStrategy,
 
     {
-      provide: AuthUseCasesConstants.FIND_USER_BY_JWT_TOKEN,
+      provide: AuthUseCasesConstants.FIND_USER_BY_ID,
       useClass: FindUserByJwtTokenService
     },
     {

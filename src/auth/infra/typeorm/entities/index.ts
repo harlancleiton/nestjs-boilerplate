@@ -1,1 +1,1 @@
-export * from './token.entity';
+export * from './user-token.entity';

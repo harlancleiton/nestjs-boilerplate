@@ -1,14 +1,14 @@
 import { UserModel } from '~/users/domain';
 
-import { TokenModel } from '../models';
+import { UserTokenModel } from '../models';
 
 interface RecoverPasswordCreatedEventPayload {
-  token: TokenModel;
+  token: UserTokenModel;
   user: UserModel;
 }
 
 export class RecoverPasswordCreatedEvent {
-  public readonly token: TokenModel;
+  public readonly token: UserTokenModel;
   public readonly user: UserModel;
 
   constructor({ token, user }: RecoverPasswordCreatedEventPayload) {

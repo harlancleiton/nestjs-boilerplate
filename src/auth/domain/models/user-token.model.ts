@@ -1,18 +1,15 @@
 import { UserModel } from '~/users/domain';
 
-export enum TokenType {
-  JWT_REFRESH_TOKEN = 'jwt_refresh_token',
-  FORGOT_PASSWORD = 'forgot_password'
-}
+import { UserTokenType } from '../enums';
 
-export interface TokenModel {
+export interface UserTokenModel {
   id: string;
 
   uuid: string;
 
   token: string;
 
-  type: TokenType;
+  type: UserTokenType;
 
   user: UserModel;
 

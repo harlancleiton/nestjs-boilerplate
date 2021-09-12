@@ -2,7 +2,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthUseCasesConstants, FindUserByJwtToken } from '~/auth/domain';
+import { AuthUseCasesConstants, FindUserById } from '~/auth/domain';
 import { factories } from '~/test/factories';
 
 import { JwtStrategy } from './jwt.strategy';
@@ -14,7 +14,7 @@ describe('JwtStrategy', () => {
   const findUserByJwtTokenMock = () => ({ execute: jest.fn() });
 
   let sut: JwtStrategy;
-  let findUserByJwtToken: FindUserByJwtToken;
+  let findUserByJwtToken: FindUserById;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,16 +22,14 @@ describe('JwtStrategy', () => {
         JwtStrategy,
         { provide: ConfigService, useFactory: configServiceMock },
         {
-          provide: AuthUseCasesConstants.FIND_USER_BY_JWT_TOKEN,
+          provide: AuthUseCasesConstants.FIND_USER_BY_ID,
           useFactory: findUserByJwtTokenMock
         }
       ]
     }).compile();
 
     sut = module.get(JwtStrategy);
-    findUserByJwtToken = module.get(
-      AuthUseCasesConstants.FIND_USER_BY_JWT_TOKEN
-    );
+    findUserByJwtToken = module.get(AuthUseCasesConstants.FIND_USER_BY_ID);
   });
 
   it('should be defined', () => {

@@ -1,5 +1,5 @@
-import { TokenModel } from '~/auth/domain';
+import { UserTokenModel } from '~/auth/domain';
 
 export interface FindRecoverPasswordTokenRepository {
-  findRecoverPasswordToken(token: string): Promise<TokenModel | undefined>;
+  findRecoverPasswordToken(token: string): Promise<UserTokenModel | undefined>;
 }

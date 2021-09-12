@@ -6,7 +6,7 @@ import {
   AuthEventsContants,
   AuthRepositoriesConstants,
   RecoverPassword,
-  TokenType
+  UserTokenType
 } from '~/auth/domain';
 import { RecoverPasswordCreatedEvent } from '~/auth/domain/events';
 import { Encrypter, Event } from '~/shared/data';
@@ -34,7 +34,7 @@ export class RecoverPasswordService implements RecoverPassword {
 
     const token = await this.createTokenRepository.create({
       user,
-      type: TokenType.FORGOT_PASSWORD,
+      type: UserTokenType.FORGOT_PASSWORD,
       token: uuid()
     });
 

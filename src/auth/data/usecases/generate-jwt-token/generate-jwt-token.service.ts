@@ -7,7 +7,7 @@ import {
   AuthRepositoriesConstants,
   GenerateJwtToken,
   LoginModel,
-  TokenType
+  UserTokenType
 } from '~/auth/domain';
 import { Encrypter } from '~/shared/data';
 import { AdaptersConstants } from '~/shared/domain';
@@ -30,7 +30,7 @@ export class GenerateJwtTokenService implements GenerateJwtToken {
 
     const refreshToken = await this.createTokenRepository.create({
       user,
-      type: TokenType.JWT_REFRESH_TOKEN,
+      type: UserTokenType.JWT_REFRESH_TOKEN,
       token: uuid()
     });
 

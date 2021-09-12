@@ -9,11 +9,11 @@ import {
   JoinColumn
 } from 'typeorm';
 
-import { TokenModel, TokenType } from '~/auth/domain';
+import { UserTokenModel, UserTokenType } from '~/auth/domain';
 import { UserEntity } from '~/users/infra';
 
 @Entity('tokens')
-export class TokenEntity implements TokenModel {
+export class TokenEntity implements UserTokenModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -27,8 +27,8 @@ export class TokenEntity implements TokenModel {
   @Column({ type: 'uuid' })
   token: string;
 
-  @Column({ type: 'enum', enum: TokenType })
-  type: TokenType;
+  @Column({ type: 'enum', enum: UserTokenType })
+  type: UserTokenType;
 
   @ManyToOne(() => UserEntity, {
     eager: true,

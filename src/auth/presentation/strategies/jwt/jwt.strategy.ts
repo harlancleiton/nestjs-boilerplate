@@ -5,11 +5,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { plainToClass } from 'class-transformer';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import {
-  AuthUseCasesConstants,
-  FindUserByJwtToken,
-  JwtTokenModel
-} from '~/auth/domain';
+import { AuthUseCasesConstants, FindUserById } from '~/auth/domain';
 
 import { UserDto } from '../../dtos';
 
@@ -17,8 +13,8 @@ import { UserDto } from '../../dtos';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     configService: ConfigService,
-    @Inject(AuthUseCasesConstants.FIND_USER_BY_JWT_TOKEN)
-    private readonly findUserByJwtToken: FindUserByJwtToken
+    @Inject(AuthUseCasesConstants.FIND_USER_BY_ID)
+    private readonly findUserById: FindUserById
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -27,8 +23,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ sub }: JwtTokenModel): Promise<UserDto> {
-    const user = await this.findUserByJwtToken.execute({ sub });
+  async validate({ sub }: any): Promise<UserDto> {
+    const user = await this.findUserById.execute(sub);
 
     if (!user) throw new UnauthorizedException();
 

@@ -9,7 +9,7 @@ import {
   RemoveTokenRepository
 } from '~/auth/data/repositories';
 import { FindRecoverPasswordTokenRepository } from '~/auth/data/repositories/find-recover-password-token.repository';
-import { TokenModel, TokenType } from '~/auth/domain';
+import { UserTokenModel, UserTokenType } from '~/auth/domain';
 import { DeepPartial } from '~/shared/domain';
 
 import { TokenEntity } from '../entities';
@@ -35,10 +35,10 @@ export class TokensRepository
     return token;
   }
 
-  async findRefreshToken(token: string): Promise<TokenModel | undefined> {
+  async findRefreshToken(token: string): Promise<UserTokenModel | undefined> {
     const refreshToken = await this.typeormRepository.findOne({
       token,
-      type: TokenType.JWT_REFRESH_TOKEN
+      type: UserTokenType.JWT_REFRESH_TOKEN
     });
 
     return refreshToken;
@@ -46,16 +46,16 @@ export class TokensRepository
 
   async findRecoverPasswordToken(
     token: string
-  ): Promise<TokenModel | undefined> {
+  ): Promise<UserTokenModel | undefined> {
     const recoverPasswordToken = await this.typeormRepository.findOne({
       token,
-      type: TokenType.FORGOT_PASSWORD
+      type: UserTokenType.FORGOT_PASSWORD
     });
 
     return recoverPasswordToken;
   }
 
-  async remove(_token: TokenModel): Promise<TokenModel | undefined> {
+  async remove(_token: UserTokenModel): Promise<UserTokenModel | undefined> {
     const token = await this.typeormRepository.findOne({
       where: { id: _token.id }
     });

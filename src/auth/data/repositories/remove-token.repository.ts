@@ -1,5 +1,5 @@
-import { TokenModel } from '~/auth/domain';
+import { UserTokenModel } from '~/auth/domain';
 
 export interface RemoveTokenRepository {
-  remove(token: TokenModel): Promise<TokenModel>;
+  remove(token: UserTokenModel): Promise<UserTokenModel>;
 }
