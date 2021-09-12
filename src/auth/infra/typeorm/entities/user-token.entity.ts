@@ -13,7 +13,7 @@ import { UserTokenModel, UserTokenType } from '~/auth/domain';
 import { UserEntity } from '~/users/infra';
 
 @Entity('tokens')
-export class TokenEntity implements UserTokenModel {
+export class UserTokenEntity implements UserTokenModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -38,9 +38,9 @@ export class TokenEntity implements UserTokenModel {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }

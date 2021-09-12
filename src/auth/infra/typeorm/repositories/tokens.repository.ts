@@ -12,7 +12,7 @@ import { FindRecoverPasswordTokenRepository } from '~/auth/data/repositories/fin
 import { UserTokenModel, UserTokenType } from '~/auth/domain';
 import { DeepPartial } from '~/shared/domain';
 
-import { TokenEntity } from '../entities';
+import { UserTokenEntity } from '../entities';
 
 @Injectable()
 export class TokensRepository
@@ -22,13 +22,15 @@ export class TokensRepository
     FindRecoverPasswordTokenRepository,
     RemoveTokenRepository
 {
-  private readonly typeormRepository: Repository<TokenEntity>;
+  private readonly typeormRepository: Repository<UserTokenEntity>;
 
   constructor(@InjectConnection() connection: Connection) {
-    this.typeormRepository = connection.getRepository(TokenEntity);
+    this.typeormRepository = connection.getRepository(UserTokenEntity);
   }
 
-  async create(entityLike: DeepPartial<TokenEntity>): Promise<TokenEntity> {
+  async create(
+    entityLike: DeepPartial<UserTokenEntity>
+  ): Promise<UserTokenEntity> {
     const token = this.typeormRepository.create(entityLike);
     await this.typeormRepository.save(token);
 

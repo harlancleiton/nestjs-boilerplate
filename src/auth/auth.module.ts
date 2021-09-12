@@ -15,7 +15,7 @@ import {
   ValidateLoginService
 } from './data';
 import { AuthRepositoriesConstants, AuthUseCasesConstants } from './domain';
-import { TokenEntity, TokensRepository } from './infra';
+import { UserTokenEntity, TokensRepository } from './infra';
 import {
   LoginController,
   RecoverPasswordController,
@@ -32,7 +32,7 @@ import {
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([TokenEntity]),
+    TypeOrmModule.forFeature([UserTokenEntity]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       inject: [ConfigService],
