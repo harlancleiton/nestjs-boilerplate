@@ -1,4 +1,4 @@
 export enum UserTokenType {
-  JWT_REFRESH_TOKEN = 'jwt_refresh_token',
+  REFRESH_ACCESS_TOKEN = 'refresh_access_token',
   FORGOT_PASSWORD = 'forgot_password'
 }

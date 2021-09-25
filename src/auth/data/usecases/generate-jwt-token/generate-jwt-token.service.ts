@@ -26,7 +26,7 @@ export class GenerateJwtTokenService implements GenerateJwtToken {
 
     const refreshToken = await this.createTokenRepository.create({
       user,
-      type: UserTokenType.JWT_REFRESH_TOKEN,
+      type: UserTokenType.REFRESH_ACCESS_TOKEN,
       token: uuid()
     });
 

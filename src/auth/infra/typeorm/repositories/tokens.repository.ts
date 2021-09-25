@@ -40,7 +40,7 @@ export class TokensRepository
   async findRefreshToken(token: string): Promise<UserTokenModel | undefined> {
     const refreshToken = await this.typeormRepository.findOne({
       token,
-      type: UserTokenType.JWT_REFRESH_TOKEN
+      type: UserTokenType.REFRESH_ACCESS_TOKEN
     });
 
     return refreshToken;

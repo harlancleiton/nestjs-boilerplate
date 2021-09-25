@@ -12,7 +12,7 @@ import {
 import { UserTokenModel, UserTokenType } from '~/auth/domain';
 import { UserEntity } from '~/users/infra';
 
-@Entity('tokens')
+@Entity('user_tokens')
 export class UserTokenEntity implements UserTokenModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
