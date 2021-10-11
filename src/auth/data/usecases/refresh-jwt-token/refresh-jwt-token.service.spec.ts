@@ -3,11 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import {
   AuthRepositoriesConstants,
-  AuthUseCasesConstants,
-  GenerateJwtToken
-} from '~/auth/domain';
+  AuthUseCasesConstants
+} from '~/auth/constants';
+import { GenerateJwtToken } from '~/auth/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Encrypter } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 
 import {

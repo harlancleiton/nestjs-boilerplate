@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { AdaptersConstants } from '~/shared/constants';
 import { Hash } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 import { FindUserByEmailRepository } from '~/users/data';
 import { UsersRepositoryConstants } from '~/users/domain';

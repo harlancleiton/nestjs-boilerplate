@@ -5,8 +5,8 @@ import {
   NotificationRepositoriesConstants,
   NotificationsEventsContants
 } from '~/notifications/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Event } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 
 import { CreateNotificationRepository } from '../../repositories';

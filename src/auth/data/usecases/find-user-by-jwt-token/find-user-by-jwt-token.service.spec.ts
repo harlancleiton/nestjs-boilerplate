@@ -38,7 +38,7 @@ describe('FindUserByJwtTokenService', () => {
 
     jest.spyOn(findUserByIdRepository, 'findById');
 
-    await sut.execute(token);
+    await sut.execute(token.sub);
 
     expect(findUserByIdRepository.findById).toBeCalledWith(token.sub);
   });
@@ -50,7 +50,7 @@ describe('FindUserByJwtTokenService', () => {
       .spyOn(findUserByIdRepository, 'findById')
       .mockReturnValueOnce(Promise.resolve(undefined));
 
-    const user = await sut.execute(token);
+    const user = await sut.execute(token.sub);
 
     expect(user).toBeUndefined();
   });
@@ -64,7 +64,7 @@ describe('FindUserByJwtTokenService', () => {
         throw new Error();
       });
 
-    await expect(sut.execute(token)).rejects.toThrow();
+    await expect(sut.execute(token.sub)).rejects.toThrow();
   });
 
   it('should return user', async () => {
@@ -75,7 +75,7 @@ describe('FindUserByJwtTokenService', () => {
       .spyOn(findUserByIdRepository, 'findById')
       .mockReturnValueOnce(Promise.resolve(userModel));
 
-    const user = await sut.execute(token);
+    const user = await sut.execute(token.sub);
 
     expect(user).toBeDefined();
     expect(user).toEqual(userModel);

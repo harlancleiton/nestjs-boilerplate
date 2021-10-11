@@ -1,11 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { plainToClass } from 'class-transformer';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { RefreshJwtToken } from '~/auth/domain';
 
-import { AuthUseCasesConstants, RefreshJwtToken } from '~/auth/domain';
-import { factories } from '~/test/factories';
-
-import { LoginResponseDto } from '../../dtos';
 import { RecoverPasswordController } from './recover-password.controller';
 
 describe('RecoverPasswordController', () => {

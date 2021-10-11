@@ -1,7 +1,8 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthUseCasesConstants, ValidateLogin } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { ValidateLogin } from '~/auth/domain';
 import { factories } from '~/test/factories';
 
 import { LocalStrategy } from './local.strategy';

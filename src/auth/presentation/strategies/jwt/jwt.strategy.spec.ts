@@ -2,7 +2,8 @@ import { UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthUseCasesConstants, FindUserById } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { FindUserById } from '~/auth/domain';
 import { factories } from '~/test/factories';
 
 import { JwtStrategy } from './jwt.strategy';

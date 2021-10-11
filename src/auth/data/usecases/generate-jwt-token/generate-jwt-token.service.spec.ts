@@ -1,9 +1,10 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthRepositoriesConstants, TokenType } from '~/auth/domain';
+import { AuthRepositoriesConstants } from '~/auth/constants';
+import { UserTokenType } from '~/auth/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Encrypter } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 
 import { CreateTokenRepository } from '../../repositories';
@@ -80,7 +81,7 @@ describe('GenerateJwtTokenService', () => {
 
     expect(createTokenRepository.create).toBeCalledWith({
       user: userModel,
-      type: TokenType.JWT_REFRESH_TOKEN,
+      type: UserTokenType.REFRESH_ACCESS_TOKEN,
       token: expect.any(String)
     });
   });

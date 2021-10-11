@@ -5,8 +5,8 @@ import * as request from 'supertest';
 import { validate as validateUUID } from 'uuid';
 
 import { AppModule } from '~/app.module';
+import { AdaptersConstants } from '~/shared/constants';
 import { Hash } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { TypeOrmHelper } from '~/shared/infra';
 import { CreateUserRepository } from '~/users/data';
 import { UsersRepositoryConstants } from '~/users/domain';

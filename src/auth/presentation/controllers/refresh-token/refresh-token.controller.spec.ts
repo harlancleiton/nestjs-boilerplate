@@ -2,7 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { plainToClass } from 'class-transformer';
 
-import { AuthUseCasesConstants, RefreshJwtToken } from '~/auth/domain';
+import { AuthUseCasesConstants } from '~/auth/constants';
+import { RefreshJwtToken } from '~/auth/domain';
 import { factories } from '~/test/factories';
 
 import { LoginResponseDto } from '../../dtos';

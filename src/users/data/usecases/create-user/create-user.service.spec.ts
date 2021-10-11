@@ -1,8 +1,8 @@
 import { UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { AdaptersConstants } from '~/shared/constants';
 import { Event, Hash } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { factories } from '~/test/factories';
 import {
   UserCreatedEvent,
