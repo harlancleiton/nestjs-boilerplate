@@ -17,13 +17,13 @@ export class TypeOrmHelper {
 
   async clear(): Promise<void> {
     for (const entity of this.entities) {
-      const repository = await this.getRepository(entity);
+      const repository = this.getRepository(entity);
 
       await repository.delete({});
     }
   }
 
-  async getRepository<T>(target: EntityTarget<T>): Promise<Repository<T>> {
+  getRepository<T>(target: EntityTarget<T>): Repository<T> {
     return this.connection.getRepository(target);
   }
 

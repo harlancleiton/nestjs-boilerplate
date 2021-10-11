@@ -1,2 +1,2 @@
 export * from './adapters';
-export * from './helpers';
+export * from './database';

@@ -3,8 +3,16 @@ import { ConfigModule } from '@nestjs/config';
 
 import * as Joi from 'joi';
 
-import { AdaptersConstants } from './domain';
-import { BCryptAdapter, EncrypterAdapter, EventEmitterAdapter } from './infra';
+import { AdaptersConstants, DatabaseConstants } from './constants';
+import {
+  BCryptAdapter,
+  DatabaseTransactionComposite,
+  EncrypterAdapter,
+  EventEmitterAdapter,
+  MongooseTransactionAdapter,
+  TypeORMTransactionAdapter
+} from './infra';
+import { TransactionManagerInterceptor } from './presentation';
 
 @Global()
 @Module({
@@ -53,12 +61,40 @@ import { BCryptAdapter, EncrypterAdapter, EventEmitterAdapter } from './infra';
   providers: [
     { provide: AdaptersConstants.HASH, useClass: BCryptAdapter },
     { provide: AdaptersConstants.ENCRYPTER, useClass: EncrypterAdapter },
-    { provide: AdaptersConstants.EVENT, useClass: EventEmitterAdapter }
+    { provide: AdaptersConstants.EVENT, useClass: EventEmitterAdapter },
+    {
+      provide: DatabaseConstants.TYPEORM_TRANSACTION,
+      useClass: TypeORMTransactionAdapter
+    },
+    {
+      provide: DatabaseConstants.MONGOOSE_TRANSACTION,
+      useClass: MongooseTransactionAdapter
+    },
+    {
+      provide: DatabaseConstants.DATABASE_TRANSACTION,
+      inject: [
+        DatabaseConstants.TYPEORM_TRANSACTION,
+        DatabaseConstants.MONGOOSE_TRANSACTION
+      ],
+      useFactory: (
+        typeormTransaction: TypeORMTransactionAdapter,
+        mongooseTransaction: MongooseTransactionAdapter
+      ) => {
+        return new DatabaseTransactionComposite(
+          typeormTransaction,
+          mongooseTransaction
+        );
+      }
+    },
+    TransactionManagerInterceptor
   ],
   exports: [
-    { provide: AdaptersConstants.HASH, useClass: BCryptAdapter },
-    { provide: AdaptersConstants.ENCRYPTER, useClass: EncrypterAdapter },
-    { provide: AdaptersConstants.EVENT, useClass: EventEmitterAdapter }
+    AdaptersConstants.HASH,
+    AdaptersConstants.ENCRYPTER,
+    AdaptersConstants.EVENT,
+    DatabaseConstants.DATABASE_TRANSACTION,
+    DatabaseConstants.TYPEORM_TRANSACTION,
+    DatabaseConstants.MONGOOSE_TRANSACTION
   ]
 })
 export class SharedModule {}

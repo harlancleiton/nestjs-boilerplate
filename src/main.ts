@@ -13,6 +13,7 @@ import { ExpressAdapter } from '@bull-board/express';
 import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
+import { TransactionManagerInterceptor } from './shared/presentation';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -51,6 +52,9 @@ async function bootstrap() {
       }
     })
   );
+
+  const transactionManagerInterceptor = app.get(TransactionManagerInterceptor);
+  app.useGlobalInterceptors(transactionManagerInterceptor);
 
   const bullBoardEnable = configService.get('BULL_BOARD_ENABLE');
 
