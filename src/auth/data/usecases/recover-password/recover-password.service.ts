@@ -8,8 +8,8 @@ import {
 } from '~/auth/constants';
 import { RecoverPassword, UserTokenType } from '~/auth/domain';
 import { RecoverPasswordCreatedEvent } from '~/auth/domain/events';
+import { AdaptersConstants } from '~/shared/constants';
 import { Encrypter, Event } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { FindUserByEmailRepository } from '~/users/data';
 import { UsersRepositoryConstants } from '~/users/domain';
 

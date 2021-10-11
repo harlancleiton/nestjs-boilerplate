@@ -8,8 +8,8 @@ import {
   NotificationsEventsContants,
   NotificationCreatedEvent
 } from '~/notifications/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Event } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 
 import { CreateNotificationRepository } from '../../repositories';
 

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 
 import { ValidateLogin } from '~/auth/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Hash } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { FindUserByEmailRepository } from '~/users/data';
 import { UserModel, UsersRepositoryConstants } from '~/users/domain';
 

@@ -4,8 +4,8 @@ import {
   UnprocessableEntityException
 } from '@nestjs/common';
 
+import { AdaptersConstants } from '~/shared/constants';
 import { Event, Hash } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import {
   CreateUser,
   CreateUserModel,

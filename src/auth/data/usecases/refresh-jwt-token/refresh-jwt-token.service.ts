@@ -5,8 +5,8 @@ import {
   AuthUseCasesConstants
 } from '~/auth/constants';
 import { GenerateJwtToken, LoginModel, RefreshJwtToken } from '~/auth/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Encrypter } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 
 import {
   FindRefreshTokenRepository,

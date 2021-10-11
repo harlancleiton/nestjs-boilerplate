@@ -5,8 +5,8 @@ import {
   NotFoundException
 } from '@nestjs/common';
 
+import { AdaptersConstants } from '~/shared/constants';
 import { Hash } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import {
   UpdateUser,
   UpdateUserModel,

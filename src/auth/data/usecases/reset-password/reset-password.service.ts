@@ -7,8 +7,8 @@ import {
 
 import { AuthRepositoriesConstants } from '~/auth/constants';
 import { ResetPassword, ResetPasswordModel } from '~/auth/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Encrypter } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { UpdateUser, UsersUseCasesConstants } from '~/users/domain';
 
 import { RemoveTokenRepository } from '../../repositories';

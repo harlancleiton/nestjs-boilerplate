@@ -5,8 +5,8 @@ import { v4 as uuid } from 'uuid';
 
 import { AuthRepositoriesConstants } from '~/auth/constants';
 import { GenerateJwtToken, LoginModel, UserTokenType } from '~/auth/domain';
+import { AdaptersConstants } from '~/shared/constants';
 import { Encrypter } from '~/shared/data';
-import { AdaptersConstants } from '~/shared/domain';
 import { UserModel } from '~/users/domain';
 
 import { CreateTokenRepository } from '../../repositories';
